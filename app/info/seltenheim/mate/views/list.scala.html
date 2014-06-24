@@ -2,10 +2,15 @@
 
 @import info.seltenheim.mate.controllers._
 
-<img src="@routes.Assets.at("img/mate_lkw.jpg")">
-<img src="@routes.Assets.at("img/mate_kasten.jpeg")">
-<img src="@routes.Assets.at("img/mate.png")">
-<img src="@routes.Assets.at("img/mate.png")">
-<img src="@routes.Assets.at("img/mate.png")">
-<img src="@routes.Assets.at("img/mate.png")">
-<img src="@routes.Assets.at("img/mate.png")">
+
+
+@for(i <- 1 to (count/160)) {
+	<img src="@routes.Assets.at("img/mate_lkw.jpg")">
+}
+
+@for(i <- 1 to (count%160)/20) {
+	<img src="@routes.Assets.at("img/mate_kasten.jpeg")">
+}
+@for(i <- 1 to count%20) {
+	<img src="@routes.Assets.at("img/mate.png")">
+}

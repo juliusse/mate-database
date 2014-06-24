@@ -36,22 +36,17 @@
         <div class="footer">
             <div class="options">
                 <h3>Einzahlen</h3>
-                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-                    <input type="hidden" name="task" value="<?php echo $betrag_einzahlen_task?>">Nutzer <select class="user_wahl" name="user_name">
-                        <?php
-                        foreach ($user as $user_name) {
-                            ?>
-                            <option><?php echo $user_name ?></option>
-                            <?php
-                        }
-                        ?>
-                    </select>
+                <form action="@routes.MateController.addRemaining().toString()" method="post">
+                	Nutzer: <select name="username">
+                		<option></option>
+                		@for(junky <- junkies) {
+                		<option value="@junky.getName()">@junky.getName()</option>
+                		}
+                	</select>
                     Betrag
-                    <input type="text" class="money" name="betrag" value="10">
-                    Euro Flaschenpreis
-                    <input type="text" class="price" name="flaschenpreis_bei_einzahlung" value="<?php echo $mate_flaschenpreis ?>">
-                    Euro
-                    <input type="submit" value="<?php echo $einzahlen_knopf ?>">
+                    <input type="text" class="money" name="amount" value="10"> € Flaschenpreis
+                    <input type="text" class="price" name=pricePerBottle value="0.75"> €
+                    <input type="submit" value="Einzahlen">
                 </form>
             </div>
 

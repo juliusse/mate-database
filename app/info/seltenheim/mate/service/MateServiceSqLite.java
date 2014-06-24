@@ -20,6 +20,8 @@ public class MateServiceSqLite implements MateService {
     private static final String SELECT_ALL = "SELECT * FROM user";
     private static final String SELECT_BY_NAME = "SELECT * FROM user WHERE user_name = ?";
     private static final String INSERT_JUNKY = "INSERT INTO user (user_name, bottle_count,bottle_remain) VALUES (?,0,0)";
+    private static final String COUNT_MATE = "UPDATE user SET bottle_count=bottle_count+1, bottle_remain=bottle_remain-1 WHERE user_name = ?";
+    private static final String ADD_REMAINING_MATE = "UPDATE user SET bottle_remain=bottle_remain+? WHERE user_name = ?";
 
     private final String connectionString;
 
@@ -69,27 +71,25 @@ public class MateServiceSqLite implements MateService {
     }
 
     @Override
-    public MateJunky updateJunky(MateJunky junky) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public boolean removeJunky(String name) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public int getTotalBottleCount() {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public int countMate(String name) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int countMate(String name) throws IOException {
+        SqlUtils.prepareAndExecuteStatement(connectionString, COUNT_MATE, name);
+
+        final MateJunky junky = findJunkyByName(name);
+        return junky.getCount();
+    }
+
+    @Override
+    public int addRemainingBottles(String name, int amount) throws IOException {
+        SqlUtils.prepareAndExecuteStatement(connectionString, ADD_REMAINING_MATE, amount, name);
+
+        final MateJunky junky = findJunkyByName(name);
+        return junky.getRemaining();
     }
 
     private MateJunky rowToJunky(Map<String, Object> row) {

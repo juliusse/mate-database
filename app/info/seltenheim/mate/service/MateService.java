@@ -14,16 +14,23 @@ public interface MateService {
 
     public MateJunky addJunky(String name) throws IOException;
 
-    public MateJunky updateJunky(MateJunky junky);
-
-    public boolean removeJunky(String name);
-
     public int getTotalBottleCount();
 
     /**
      * 
      * @param junkyId
      * @return new Count
+     * @throws IOException 
      */
-    public int countMate(String name);
+    public int countMate(String name) throws IOException;
+
+    /**
+     * 
+     * @param name
+     * @param amount
+     * @return new remaining
+     * @throws IOException 
+     */
+    public int addRemainingBottles(String name, int amount) throws IOException;
+
 }

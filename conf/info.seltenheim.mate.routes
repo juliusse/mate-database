@@ -7,6 +7,7 @@
 
 GET		/				@info.seltenheim.mate.controllers.MateController.index()
 POST	/add			@info.seltenheim.mate.controllers.MateController.addJunky()
+POST	/addRemaining	@info.seltenheim.mate.controllers.MateController.addRemaining()
 
 # assets
 GET     /assets/*file   info.seltenheim.mate.controllers.Assets.at(path="/public", file)

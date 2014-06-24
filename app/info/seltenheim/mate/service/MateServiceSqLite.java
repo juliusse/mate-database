@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.DocFlavor.STRING;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +25,7 @@ public class MateServiceSqLite implements MateService {
     private static final String COUNT_MATE = "UPDATE user SET bottle_count=bottle_count+1, bottle_remain=bottle_remain-1 WHERE user_name = ?";
     private static final String ADD_REMAINING_MATE = "UPDATE user SET bottle_remain=bottle_remain+? WHERE user_name = ?";
     private static final String ALL_BOTTLES = "select sum(bottle_count) as count FROM user";
+    private static final String LOG_MATE_COUNT = "insert into insert_log (user_id) values (?)";
 
     private final String connectionString;
 
@@ -47,6 +50,7 @@ public class MateServiceSqLite implements MateService {
         return junkies;
     }
 
+    
     @Override
     public MateJunky findJunkyByName(String name) throws IOException {
         MateJunky junky = null;
@@ -80,6 +84,7 @@ public class MateServiceSqLite implements MateService {
     @Override
     public int countMate(String name) throws IOException {
         SqlUtils.prepareAndExecuteStatement(connectionString, COUNT_MATE, name);
+        SqlUtils.prepareAndExecuteStatement(connectionString, LOG_MATE_COUNT, name);
 
         final MateJunky junky = findJunkyByName(name);
         return junky.getCount();

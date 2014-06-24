@@ -1,4 +1,4 @@
-@(junkies : List[info.seltenheim.mate.service.MateJunky])
+@(junkies : List[info.seltenheim.mate.service.MateJunky], totalCount: Int)
 
 @import info.seltenheim.mate.controllers._
 
@@ -20,16 +20,10 @@
                     <th class="remain">&uuml;brig</th>
                 </tr>
                 @for(junky <- junkies) {
-                <tr>
-	                <td class="user_name">@junky.getName()</td>
-	                <td class="count_button"><a class="mate">Durst!</a></td>
-	                <td class="pictures" width="*">@list(junky.getCount())</td>
-	                <td class="counter">@junky.getCount()</td>
-	                <td class="remain">@junky.getRemaining()</td>
-                </tr>
+					@userRow(junky)
                 }
 
-                <tr><th class="user_name">Team</th><th></th><th></th><th class="counter">Total bottles</th><th></th></tr>
+                <tr><th class="user_name">Team</th><th></th><th></th><th class="counter">Total bottles</th><th>@totalCount</th></tr>
             </table>
         </div>
 

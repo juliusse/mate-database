@@ -32,7 +32,7 @@ function countMate(userName) {
         }
     }
 
-    xmlhttp.open("POST", "webservice.php", true);
+    xmlhttp.open("POST", "/count", true);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send("task=count&username=" + userName);
+    xmlhttp.send("username=" + userName);
 }

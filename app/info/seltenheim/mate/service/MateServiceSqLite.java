@@ -22,6 +22,7 @@ public class MateServiceSqLite implements MateService {
     private static final String INSERT_JUNKY = "INSERT INTO user (user_name, bottle_count,bottle_remain) VALUES (?,0,0)";
     private static final String COUNT_MATE = "UPDATE user SET bottle_count=bottle_count+1, bottle_remain=bottle_remain-1 WHERE user_name = ?";
     private static final String ADD_REMAINING_MATE = "UPDATE user SET bottle_remain=bottle_remain+? WHERE user_name = ?";
+    private static final String ALL_BOTTLES = "select sum(bottle_count) as count FROM user";
 
     private final String connectionString;
 
@@ -71,9 +72,9 @@ public class MateServiceSqLite implements MateService {
     }
 
     @Override
-    public int getTotalBottleCount() {
-        // TODO Auto-generated method stub
-        return 0;
+    public int getTotalBottleCount() throws IOException {
+        final Map<String, Object> row = SqlUtils.selectEntityFromTable(connectionString, ALL_BOTTLES);
+        return Integer.parseInt(row.get("count").toString());
     }
 
     @Override

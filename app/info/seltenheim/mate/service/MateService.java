@@ -14,7 +14,7 @@ public interface MateService {
 
     public MateJunky addJunky(String name) throws IOException;
 
-    public int getTotalBottleCount();
+    public int getTotalBottleCount() throws IOException;
 
     /**
      * 

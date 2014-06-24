@@ -1,0 +1,68 @@
+@(junkies : List[info.seltenheim.mate.service.MateJunky])
+
+@import info.seltenheim.mate.controllers._
+
+<html>
+    <head>
+        <title>Matenbank</title>
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("css/mate.css")">
+        <script type="text/javascript" src="@routes.Assets.at("js/mate.js")"></script>
+    </head>
+    <body>
+        <div class="main">
+            <h3>Matenbank</h3>
+            <table class="mate_counter" width="100%">
+                <tr>
+                    <th class="user_name">Wer?</th>
+                    <th class="count_button">Durst!</th>
+                    <th class="pictures">Schon so viel?</th>
+                    <th class="counter">gez&auml;hlt</th>
+                    <th class="remain">&uuml;brig</th>
+                </tr>
+                @for(junky <- junkies) {
+                <tr>
+	                <td class="user_name">@junky.getName()</td>
+	                <td class="count_button"><a class="mate">Durst!</a></td>
+	                <td class="pictures" width="*">@list(junky.getCount())</td>
+	                <td class="counter">@junky.getCount()</td>
+	                <td class="remain">@junky.getRemaining()</td>
+                </tr>
+                }
+
+                <tr><th class="user_name">Team</th><th></th><th></th><th class="counter">Total bottles</th><th></th></tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <div class="options">
+                <h3>Einzahlen</h3>
+                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+                    <input type="hidden" name="task" value="<?php echo $betrag_einzahlen_task?>">Nutzer <select class="user_wahl" name="user_name">
+                        <?php
+                        foreach ($user as $user_name) {
+                            ?>
+                            <option><?php echo $user_name ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                    Betrag
+                    <input type="text" class="money" name="betrag" value="10">
+                    Euro Flaschenpreis
+                    <input type="text" class="price" name="flaschenpreis_bei_einzahlung" value="<?php echo $mate_flaschenpreis ?>">
+                    Euro
+                    <input type="submit" value="<?php echo $einzahlen_knopf ?>">
+                </form>
+            </div>
+
+            <div class="options">
+                <h3>Neuer Nutzer</h3>
+                <form action="@routes.MateController.addJunky().toString()" method="POST">
+					<input type="text" class="user_name" name="username" placeholder="Neuer Nutzer">
+					<input type="submit" value="Erstellen">
+                </form>
+            </div>
+        </div>
+
+    </body>
+</html>

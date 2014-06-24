@@ -13,10 +13,12 @@ version := "1.0.0-alpha1"
 libraryDependencies ++= Seq(
 	//misc
 	"joda-time" % "joda-time" % "2.1"
+	,"org.xerial" % "sqlite-jdbc" % "3.7.2"
+	,"commons-dbutils" % "commons-dbutils" % "1.5"
 	//belongs together
 	, "org.springframework" % "spring-context" % "3.2.5.RELEASE"
 	, "cglib" % "cglib" % "2.2.2"
-    	, "org.jacoco" % "org.jacoco.core" % "0.6.3.201306030806" artifacts(Artifact("org.jacoco.core", "jar", "jar"))
+    , "org.jacoco" % "org.jacoco.core" % "0.6.3.201306030806" artifacts(Artifact("org.jacoco.core", "jar", "jar"))
 	, "org.jacoco" % "org.jacoco.report" % "0.6.3.201306030806" artifacts(Artifact("org.jacoco.report", "jar", "jar"))
 )     
 

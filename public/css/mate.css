@@ -1,0 +1,149 @@
+body
+{
+    font-family: arial, verdana, sans-serif;
+    /*  background: #dddddd;*/
+}
+
+a:link, a:visited, a:hover, a:active
+{
+    text-decoration: none;
+}
+
+div.main
+{
+    min-height: 200px;
+}
+
+table
+{
+}
+
+table.mate_counter td.error_message
+{
+    color: red;
+    font-weight: bold;
+}
+
+td.user_name, th.user_name
+{
+    text-align: left;
+    font-weight:bold;
+    width: 75px;
+}
+
+td.count_button
+{
+    text-align: center;
+    width: 90px;
+    height: 60px;
+}
+
+th.pictures
+{
+    text-align: left; 
+}
+
+td.pictures
+{
+    vertical-align: top;
+}
+
+td.pictures img
+{
+    height: 40px;
+}
+
+td.counter
+{
+    color: green;
+    text-align: center;
+    width: 75px;
+}
+
+td.remain
+{
+    color: red;
+    text-align: center;
+    width: 50px;
+}
+
+
+
+input, select
+{
+    padding: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+input.money, input.price
+{
+    width: 40px;
+}
+
+input.user_name
+{
+    width: 100px;
+}
+
+select.user_wahl
+{
+    background: #ffffff;
+}
+
+.mate { 
+    -moz-box-shadow:inset 0px 1px 0px 0px #fce2c1; 
+    -webkit-box-shadow:inset 0px 1px 0px 0px #fce2c1; 
+    box-shadow:inset 0px 1px 0px 0px #fce2c1; 
+    background-color:#ffc477; 
+    -moz-border-radius:10px; 
+    -webkit-border-radius:10px; 
+    border-radius:10px; 
+    border:1px solid #eeb44f; 
+    display:inline-block; 
+    color:#ffffff; 
+    font-family:arial; 
+    font-size:15px; 
+    font-weight:bold; 
+    padding:10px 12px; 
+    text-decoration:none; 
+    text-shadow:1px 1px 0px #cc9f52; 
+    width: 60px;
+}
+
+/*
+.mate:hover { 
+    background-color:#fb9e25; 
+}
+.mate:active { 
+    position:relative; 
+    top:1px; 
+}
+*/
+.success { 
+    -moz-box-shadow:inset 0px 1px 0px 0px #fce2c1; 
+    -webkit-box-shadow:inset 0px 1px 0px 0px #fce2c1; 
+    box-shadow:inset 0px 1px 0px 0px #fce2c1; 
+    background-color:#438B39; 
+    -moz-border-radius:10px; 
+    -webkit-border-radius:10px; 
+    border-radius:10px; 
+    border:1px solid #eeb44f; 
+    display:inline-block; 
+    color:#ffffff; 
+    font-family:arial; 
+    font-size:15px; 
+    font-weight:bold; 
+    padding:10px 12px; 
+    text-decoration:none; 
+    text-shadow:1px 1px 0px #cc9f52; 
+    width: 60px;
+    height: 30px;
+}
+.success:hover { 
+    background-color:#438B39; 
+}
+.success:active { 
+    position:relative; 
+    top:1px; 
+}

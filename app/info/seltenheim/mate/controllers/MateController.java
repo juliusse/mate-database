@@ -43,6 +43,12 @@ public class MateController extends Controller {
         final double amountMoney = Double.parseDouble(form.get("amount")[0]);
         final double pricePerBottle = Double.parseDouble(form.get("pricePerBottle")[0]);
 
+        // validate fields
+        if (username == null || username.isEmpty()) {
+            flash("errorMessage", "No user selected");
+            return redirect(routes.MateController.index());
+        }
+
         // money is getting cut
         // there are no 'half' bottles or so
         final int bottles = (int) Math.floor(amountMoney / pricePerBottle);

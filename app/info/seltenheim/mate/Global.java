@@ -10,8 +10,6 @@ import java.lang.reflect.Method;
 import org.apache.commons.io.FileUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.typesafe.config.Config;
-
 import play.Application;
 import play.Configuration;
 import play.GlobalSettings;
@@ -25,28 +23,31 @@ public class Global extends GlobalSettings {
     @Override
     public void onStart(Application application) {
         initializeSpring();
+        ensureDatabaseIsPresent();
 
         super.onStart(application);
-
-        final Configuration config = Play.application().configuration();
-        final File databaseFile = new File(config.getString("info.seltenheim.mate.sqlite.location"));
-        
-        if (!databaseFile.isFile()) {
-        	Logger.warn("Database does not exist. Copy default database.");
-        	final InputStream defaultDatabaseAsStream = Play.application().resourceAsStream("mate.sqlite");
-        	
-        	databaseFile.getParentFile().mkdirs();
-        	try {
-				FileUtils.copyInputStreamToFile(defaultDatabaseAsStream, databaseFile);
-			} catch (IOException e) {
-				Logger.error("Cannot create new database.", e);
-			}
-        }
     }
 
     private void initializeSpring() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         SpringConfiguration.initializeContext(context);
+    }
+    
+    private void ensureDatabaseIsPresent() {
+        final Configuration config = Play.application().configuration();
+        final File databaseFile = new File(config.getString("info.seltenheim.mate.sqlite.location"));
+        
+        if (!databaseFile.isFile()) {
+            Logger.warn("Database does not exist. Copy default database.");
+            final InputStream defaultDatabaseAsStream = Play.application().resourceAsStream("mate.sqlite");
+            
+            databaseFile.getParentFile().mkdirs();
+            try {
+                FileUtils.copyInputStreamToFile(defaultDatabaseAsStream, databaseFile);
+            } catch (IOException e) {
+                Logger.error("Cannot create new database.", e);
+            }
+        }
     }
 
     @SuppressWarnings("rawtypes")

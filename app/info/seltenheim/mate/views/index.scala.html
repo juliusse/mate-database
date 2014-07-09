@@ -11,6 +11,11 @@
     <body>
         <div class="main">
             <h3>Matenbank</h3>
+            @if(flash().get("errorMessage") != null) {
+            <div style="color: red; font-weight: bold;position: absolute;background: #ddd;border: black 3px solid;padding: 5px;left: 44%;top: 20%;">
+            	@flash().get("errorMessage")
+            </div>
+            }
             <table class="mate_counter" width="100%">
                 <tr>
                     <th class="user_name">Wer?</th>

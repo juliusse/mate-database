@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
 	"joda-time" % "joda-time" % "2.1"
 	,"org.xerial" % "sqlite-jdbc" % "3.7.2"
 	,"commons-dbutils" % "commons-dbutils" % "1.5"
+	,"commons-io" % "commons-io" % "2.4"
 	//belongs together
 	, "org.springframework" % "spring-context" % "3.2.5.RELEASE"
 	, "cglib" % "cglib" % "2.2.2"

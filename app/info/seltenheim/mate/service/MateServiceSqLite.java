@@ -76,7 +76,14 @@ public class MateServiceSqLite implements MateService {
     @Override
     public int getTotalBottleCount() throws IOException {
         final Map<String, Object> row = SqlUtils.selectEntityFromTable(connectionString, ALL_BOTTLES);
-        return Integer.parseInt(row.get("count").toString());
+        final String bottlesAsInt = row.get("count").toString();
+        
+        //if there are no users, an empty string is returned
+        if (bottlesAsInt.isEmpty()) {
+        	return 0;
+        } else {
+        	return Integer.parseInt(bottlesAsInt);
+        }
     }
 
     @Override

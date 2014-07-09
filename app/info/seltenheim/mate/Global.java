@@ -2,13 +2,19 @@ package info.seltenheim.mate;
 
 import info.seltenheim.mate.configuration.SpringConfiguration;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import play.Application;
+import play.Configuration;
 import play.GlobalSettings;
 import play.Logger;
+import play.Play;
 import play.mvc.Action;
 import play.mvc.Http;
 
@@ -17,6 +23,7 @@ public class Global extends GlobalSettings {
     @Override
     public void onStart(Application application) {
         initializeSpring();
+        ensureDatabaseIsPresent();
 
         super.onStart(application);
     }
@@ -24,6 +31,23 @@ public class Global extends GlobalSettings {
     private void initializeSpring() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         SpringConfiguration.initializeContext(context);
+    }
+    
+    private void ensureDatabaseIsPresent() {
+        final Configuration config = Play.application().configuration();
+        final File databaseFile = new File(config.getString("info.seltenheim.mate.sqlite.location"));
+        
+        if (!databaseFile.isFile()) {
+            Logger.warn("Database does not exist. Copy default database.");
+            final InputStream defaultDatabaseAsStream = Play.application().resourceAsStream("mate.sqlite");
+            
+            databaseFile.getParentFile().mkdirs();
+            try {
+                FileUtils.copyInputStreamToFile(defaultDatabaseAsStream, databaseFile);
+            } catch (IOException e) {
+                Logger.error("Cannot create new database.", e);
+            }
+        }
     }
 
     @SuppressWarnings("rawtypes")

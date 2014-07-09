@@ -1,0 +1,37 @@
+@()(content: Html)
+
+@import info.seltenheim.mate.controllers._
+
+@menuEntry(route: String, title: String) = {
+	<li @if(request.uri.equals(route)) {class="active"}>
+		<a href="@route">@title</a>
+	</li>	
+}
+<html>
+    <head>
+        <title>Matenbank</title>
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("css/mate.css")">
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("css/bootstrap.min.css")">
+        <script type="text/javascript" src="@routes.Assets.at("js/mate.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/bootstrap.min.js")"></script>
+    </head>
+    <body>
+		<nav class="navbar navbar-default navbar-static-top navbar-inverse"
+			role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="@routes.MateController.index()">Matenbank</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-7">
+         			<ul class="nav navbar-nav">
+         				@menuEntry(routes.MateController.showSettings().toString,"Settings")
+          			</ul>
+        		</div>
+			</div>
+		</nav>
+	
+		<div class="container-fluid">
+			@content
+		</div>
+    </body>
+</html>

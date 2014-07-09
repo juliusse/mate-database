@@ -2,6 +2,7 @@ package info.seltenheim.mate.controllers;
 
 import info.seltenheim.mate.service.MateJunky;
 import info.seltenheim.mate.service.MateService;
+import info.seltenheim.mate.service.formdata.SettingsFormData;
 import info.seltenheim.mate.views.html.userRow;
 
 import java.io.IOException;
@@ -11,11 +12,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 @Component
 public class MateController extends Controller {
+    private static final Form<SettingsFormData> settingsForm = Form.form(SettingsFormData.class);
 
     @Autowired
     MateService mateService;
@@ -24,6 +27,14 @@ public class MateController extends Controller {
         final List<MateJunky> junkies = mateService.findAllJunkies();
         final int totalCount = mateService.getTotalBottleCount();
         return ok(info.seltenheim.mate.views.html.index.render(junkies, totalCount));
+    }
+    
+    public Result showSettings() throws IOException {
+        return ok(info.seltenheim.mate.views.html.settings.render(settingsForm));
+    }
+    
+    public Result processSettings() throws IOException {
+        return TODO;
     }
 
     public Result addJunky() throws IOException {

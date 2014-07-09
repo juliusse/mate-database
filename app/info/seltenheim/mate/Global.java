@@ -19,7 +19,6 @@ public class Global extends GlobalSettings {
         initializeSpring();
 
         super.onStart(application);
-
     }
 
     private void initializeSpring() {

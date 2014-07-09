@@ -2,58 +2,53 @@
 
 @import info.seltenheim.mate.controllers._
 
-<html>
-    <head>
-        <title>Matenbank</title>
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("css/mate.css")">
-        <script type="text/javascript" src="@routes.Assets.at("js/mate.js")"></script>
-    </head>
-    <body>
-        <div class="main">
-            <h3>Matenbank</h3>
-            <table class="mate_counter" width="100%">
-                <tr>
-                    <th class="user_name">Wer?</th>
-                    <th class="count_button">Durst!</th>
-                    <th class="pictures">Schon so viel?</th>
-                    <th class="counter">gez&auml;hlt</th>
-                    <th class="remain">&uuml;brig</th>
-                </tr>
-                @for(junky <- junkies) {
-					@userRow(junky)
-                }
+@layout() {
+<div class="row">
+	<table class="mate_counter" width="100%">
+		<tr>
+			<th class="user_name">Wer?</th>
+			<th class="count_button">Durst!</th>
+			<th class="pictures">Schon so viel?</th>
+			<th class="counter">gez&auml;hlt</th>
+			<th class="remain">&uuml;brig</th>
+		</tr>
+		@for(junky <- junkies) { @userRow(junky) }
 
-                <tr><th class="user_name">Team</th><th></th><th></th><th class="counter">Total bottles</th><th>@totalCount</th></tr>
-            </table>
-        </div>
+		<tr>
+			<th class="user_name">Team</th>
+			<th></th>
+			<th></th>
+			<th class="counter">Total bottles</th>
+			<th>@totalCount</th>
+		</tr>
+	</table>
+</div>
 
-        <div class="footer">
-            <div class="options">
-                <h3>Einzahlen</h3>
-                <form action="@routes.MateController.addRemaining().toString()" method="post">
-                	<label for="username">Nutzer:</label> 
-                	<select id="username" name="username">
-                		<option></option>
-                		@for(junky <- junkies) {
-                		<option value="@junky.getName()">@junky.getName()</option>
-                		}
-                	</select><br>
-                    <label for="amount">Betrag:</label>
-                    <input type="text" class="money" id="amount" name="amount" value="10"> €<br> 
-                    <label for="pricePerBottle">Flaschenpreis:</label> 
-                    <input type="text" class="price" id="pricePerBottle" name=pricePerBottle value="0.75"> €<br>
-                    <input type="submit" value="Einzahlen">
-                </form>
-            </div>
 
-            <div class="options">
-                <h3>Neuer Nutzer</h3>
-                <form action="@routes.MateController.addJunky().toString()" method="POST">
-					<input type="text" class="user_name" name="username" placeholder="Neuer Nutzer">
-					<input type="submit" value="Erstellen">
-                </form>
-            </div>
-        </div>
+<div class="row">
+	<h3>Einzahlen</h3>
+	<form action="@routes.MateController.addRemaining().toString()"
+		method="post">
+		<label for="username">Nutzer:</label> <select id="username"
+			name="username">
+			<option></option> @for(junky <- junkies) {
+			<option value="@junky.getName()">@junky.getName()</option> }
+		</select><br> <label for="amount">Betrag:</label> <input type="text"
+			class="money" id="amount" name="amount" value="10"> €<br>
+		<label for="pricePerBottle">Flaschenpreis:</label> <input
+			type="text" class="price" id="pricePerBottle" name=pricePerBottle
+			value="0.75"> €<br> <input type="submit"
+			value="Einzahlen">
+	</form>
+</div>
 
-    </body>
-</html>
+<div class="row">
+	<h3>Neuer Nutzer</h3>
+	<form action="@routes.MateController.addJunky().toString()"
+		method="POST">
+		<input type="text" class="user_name" name="username"
+			placeholder="Neuer Nutzer"> <input type="submit"
+			value="Erstellen">
+	</form>
+</div>
+}

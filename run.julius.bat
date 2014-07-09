@@ -1,0 +1,1 @@
+sbt -Dconf.file=conf/stefan.conf run

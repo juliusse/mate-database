@@ -6,6 +6,9 @@
 # Home page
 
 GET		/				@info.seltenheim.mate.controllers.MateController.index()
+GET		/settings		@info.seltenheim.mate.controllers.MateController.showSettings()
+POST	/settings		@info.seltenheim.mate.controllers.MateController.processSettings()
+
 POST	/add			@info.seltenheim.mate.controllers.MateController.addJunky()
 POST	/addRemaining	@info.seltenheim.mate.controllers.MateController.addRemaining()
 POST	/count			@info.seltenheim.mate.controllers.MateController.countMate()

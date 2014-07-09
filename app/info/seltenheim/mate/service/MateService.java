@@ -20,7 +20,7 @@ public interface MateService {
      * 
      * @param junkyId
      * @return new Count
-     * @throws IOException 
+     * @throws IOException
      */
     public int countMate(String name) throws IOException;
 
@@ -29,8 +29,14 @@ public interface MateService {
      * @param name
      * @param amount
      * @return new remaining
-     * @throws IOException 
+     * @throws IOException
      */
     public int addRemainingBottles(String name, int amount) throws IOException;
 
+    /**
+     * 
+     * @return price in euro
+     * @throws IOException
+     */
+    public double getCurrentBottlePrice() throws IOException;
 }

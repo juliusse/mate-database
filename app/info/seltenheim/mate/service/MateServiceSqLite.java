@@ -96,6 +96,13 @@ public class MateServiceSqLite implements MateService {
         return junky.getRemaining();
     }
 
+    @Override
+    public double getCurrentBottlePrice() throws IOException {
+        // TODO get price from config file
+        Logger.warn("Bottle price not implement: See https://github.com/juliusse/mate-database/issues/5");
+        return 0.75;
+    }
+    
     private MateJunky rowToJunky(Map<String, Object> row) {
         final String username = row.get("user_name").toString();
         final int count = Integer.parseInt(row.get("bottle_count").toString());
@@ -103,4 +110,6 @@ public class MateServiceSqLite implements MateService {
 
         return new MateJunky(username, count, remaining);
     }
+    
+    
 }

@@ -47,12 +47,11 @@ public class MateController extends Controller {
         return redirect(routes.MateController.index());
     }
 
-    public Result addRemaining() throws IOException {
+    public Result addCredit() throws IOException {
         // TODO more nice :)
         final Map<String, String[]> form = request().body().asFormUrlEncoded();
         final String username = form.get("username")[0];
-        final double amountMoney = Double.parseDouble(form.get("amount")[0]);
-        final double pricePerBottle = Double.parseDouble(form.get("pricePerBottle")[0]);
+        final double credit = Double.parseDouble(form.get("amount")[0]);
 
         // validate fields
         if (username == null || username.isEmpty()) {
@@ -60,11 +59,7 @@ public class MateController extends Controller {
             return redirect(routes.MateController.index());
         }
 
-        // money is getting cut
-        // there are no 'half' bottles or so
-        final int bottles = (int) Math.floor(amountMoney / pricePerBottle);
-
-        mateService.addRemainingBottles(username, bottles);
+        mateService.addCredit(username, credit);
 
         return redirect(routes.MateController.index());
     }

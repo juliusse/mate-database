@@ -27,11 +27,12 @@ public interface MateService {
     /**
      * 
      * @param name
-     * @param amount
-     * @return new remaining
+     * @param credit
+     * @return new credit
      * @throws IOException
      */
-    public int addRemainingBottles(String name, int amount) throws IOException;
+    public double addCredit(String name, double credit) throws IOException;
+    
 
     /**
      * 

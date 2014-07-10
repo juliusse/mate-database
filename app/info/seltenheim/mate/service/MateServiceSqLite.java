@@ -18,12 +18,12 @@ import play.Play;
 @Profile("mateSqLite")
 public class MateServiceSqLite implements MateService {
     private static final String SELECT_ALL = "SELECT * FROM user";
-    private static final String SELECT_BY_NAME = "SELECT * FROM user WHERE user_name = ?";
-    private static final String INSERT_JUNKY = "INSERT INTO user (user_name, bottle_count,bottle_remain) VALUES (?,0,0)";
-    private static final String COUNT_MATE = "UPDATE user SET bottle_count=bottle_count+1, bottle_remain=bottle_remain-1 WHERE user_name = ?";
-    private static final String ADD_REMAINING_MATE = "UPDATE user SET bottle_remain=bottle_remain+? WHERE user_name = ?";
-    private static final String ALL_BOTTLES = "select sum(bottle_count) as count FROM user";
-    private static final String LOG_MATE_COUNT = "insert into insert_log (user_id) values (?)";
+    private static final String SELECT_BY_NAME = "SELECT * FROM user WHERE name = ?";
+    private static final String INSERT_JUNKY = "INSERT INTO user (name) VALUES (?)";
+    private static final String COUNT_MATE = "UPDATE user SET credit=credit-?, total_bottles=total_bottles+1 WHERE name = ?";
+    private static final String ADD_REMAINING_MATE = "UPDATE user SET credit=credit+? WHERE name = ?";
+    private static final String ALL_BOTTLES = "select sum(total_bottles) as count FROM user";
+    //private static final String LOG_MATE_COUNT = "insert into insert_log (user_id) values (?)";
 
     private final String connectionString;
 
@@ -76,31 +76,34 @@ public class MateServiceSqLite implements MateService {
     @Override
     public int getTotalBottleCount() throws IOException {
         final Map<String, Object> row = SqlUtils.selectEntityFromTable(connectionString, ALL_BOTTLES);
-        final String bottlesAsInt = row.get("count").toString();
+        final String bottlesAsString = row.get("count").toString();
         
         //if there are no users, an empty string is returned
-        if (bottlesAsInt.isEmpty()) {
+        if (bottlesAsString.isEmpty()) {
         	return 0;
         } else {
-        	return Integer.parseInt(bottlesAsInt);
+        	return Integer.parseInt(bottlesAsString);
         }
     }
 
     @Override
     public int countMate(String name) throws IOException {
-        SqlUtils.prepareAndExecuteStatement(connectionString, COUNT_MATE, name);
-        SqlUtils.prepareAndExecuteStatement(connectionString, LOG_MATE_COUNT, name);
+    	final double price = getCurrentBottlePrice();
+    	final int priceInCent =  (int) (price * 100);
+        SqlUtils.prepareAndExecuteStatement(connectionString, COUNT_MATE, priceInCent, name);
+        //SqlUtils.prepareAndExecuteStatement(connectionString, LOG_MATE_COUNT, name);
 
         final MateJunky junky = findJunkyByName(name);
         return junky.getCount();
     }
 
     @Override
-    public int addRemainingBottles(String name, int amount) throws IOException {
-        SqlUtils.prepareAndExecuteStatement(connectionString, ADD_REMAINING_MATE, amount, name);
+    public double addCredit(String name, double credit) throws IOException {
+    	final int creditInCent = (int) (credit * 100);
+        SqlUtils.prepareAndExecuteStatement(connectionString, ADD_REMAINING_MATE, creditInCent, name);
 
         final MateJunky junky = findJunkyByName(name);
-        return junky.getRemaining();
+        return junky.getCredit();
     }
 
     @Override
@@ -111,11 +114,11 @@ public class MateServiceSqLite implements MateService {
     }
     
     private MateJunky rowToJunky(Map<String, Object> row) {
-        final String username = row.get("user_name").toString();
-        final int count = Integer.parseInt(row.get("bottle_count").toString());
-        final int remaining = Integer.parseInt(row.get("bottle_remain").toString());
+        final String username = row.get("name").toString();
+        final int count = Integer.parseInt(row.get("total_bottles").toString());
+        final double credit = Integer.parseInt(row.get("credit").toString()) / 100.0;
 
-        return new MateJunky(username, count, remaining);
+        return new MateJunky(username, count, credit);
     }
     
     

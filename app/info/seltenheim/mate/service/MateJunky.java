@@ -3,13 +3,13 @@ package info.seltenheim.mate.service;
 public class MateJunky {
     private String name;
     private int count;
-    private int remaining;
+    private double credit;
 
-    public MateJunky(String name, int count, int remaining) {
+    public MateJunky(String name, int count, double credit) {
         super();
         this.name = name;
         this.count = count;
-        this.remaining = remaining;
+        this.credit = credit;
     }
 
     public String getName() {
@@ -28,12 +28,16 @@ public class MateJunky {
         this.count = count;
     }
 
-    public int getRemaining() {
-        return remaining;
+    public double getCredit() {
+        return credit;
+    }
+    
+    public String getCreditAsString() {
+    	return String.format("%.2f", getCredit());
     }
 
-    public void setRemaining(int remaining) {
-        this.remaining = remaining;
+    public void setCredit(double credit) {
+        this.credit = credit;
     }
 
 }

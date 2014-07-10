@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
+	id INTEGER PRIMARY KEY,
+	name TEXT,
+	credit INTEGER DEFAULT 0,
+	total_bottles INTEGER DEFAULT 0
+);

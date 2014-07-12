@@ -1,17 +1,19 @@
 
 
 function wishGoodThirst(mateButton) {
-    var origText = mateButton.innerText;
+    var origText = $(mateButton).html();
     var origClass = mateButton.className;
     var origOnClick = mateButton.onclick;
     
-    mateButton.innerText = "Guten Durst!";
-    mateButton.className = "success";
+    $(mateButton).html(":-)");
+    $(mateButton).toggleClass("btn-success");
+    $(mateButton).toggleClass("btn-warning");
     mateButton.onclick = "";
     
     setTimeout(function() {
-        mateButton.innerText = origText;
-        mateButton.className = origClass;
+    	$(mateButton).html(origText);
+        $(mateButton).toggleClass("btn-success");
+        $(mateButton).toggleClass("btn-warning");
         mateButton.onclick = origOnClick;
     },3000);
 }
@@ -27,7 +29,7 @@ function countMate(userName) {
             var row = document.getElementById("row-"+userName);
             row.innerHTML = xmlhttp.responseText;
             
-            var mateButton = row.childNodes[3].childNodes[0];
+            var mateButton = $(row).find("button")[0];
             wishGoodThirst(mateButton);
         }
     }

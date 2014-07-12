@@ -2,7 +2,6 @@ package info.seltenheim.mate.controllers;
 
 import info.seltenheim.mate.service.MateJunky;
 import info.seltenheim.mate.service.MateService;
-import info.seltenheim.mate.service.formdata.SettingsFormData;
 import info.seltenheim.services.filesystem.FileSystemService;
 
 import java.io.File;
@@ -16,7 +15,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
@@ -24,7 +22,8 @@ import play.mvc.Result;
 
 @Component
 public class MateController extends Controller {
-    private static final Form<SettingsFormData> settingsForm = Form.form(SettingsFormData.class);
+    // private static final Form<SettingsFormData> settingsForm =
+    // Form.form(SettingsFormData.class);
 
     @Autowired
     MateService mateService;

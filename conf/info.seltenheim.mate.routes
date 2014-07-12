@@ -14,5 +14,6 @@ POST	/addRemaining	@info.seltenheim.mate.controllers.MateController.addRemaining
 POST	/count			@info.seltenheim.mate.controllers.MateController.countMate()
 
 # assets
+GET     /assets/dynamic/:filename	@info.seltenheim.mate.controllers.MateController.getImage(filename: String)
 GET     /assets/*file   info.seltenheim.mate.controllers.Assets.at(path="/public", file)
 

@@ -5,12 +5,12 @@
 
 
 @for(i <- 1 to (count/160)) {
-	<img src="@routes.Assets.at("img/mate_lkw.jpg")">
+	<img src="@routes.MateController.getImage("image3")">
 }
 
 @for(i <- 1 to (count%160)/20) {
-	<img src="@routes.Assets.at("img/mate_kasten.jpeg")">
+	<img src="@routes.MateController.getImage("image2")">
 }
 @for(i <- 1 to count%20) {
-	<img src="@routes.Assets.at("img/mate.png")">
+	<img src="@routes.MateController.getImage("image1")">
 }

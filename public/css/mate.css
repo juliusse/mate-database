@@ -3,7 +3,7 @@ body {
 	/*  background: #dddddd;*/
 }
 
-a:link,a:visited,a:hover,a:active {
+a:link, a:visited, a:hover, a:active {
 	text-decoration: none;
 }
 
@@ -20,15 +20,22 @@ table.mate_counter td.error_message {
 	font-weight: bold;
 }
 
-td.user_name,th.user_name {
+td.user_name, th.user_name {
 	text-align: left;
 	font-weight: bold;
-	width: 75px;
+	width: 100px;
 }
 
-td.count_button {
+.count_button {
+	padding: 0px 10px;
+}
+
+table .count_button {
 	text-align: center;
-	width: 90px;
+	width: 110px;
+}
+
+td.count_button {	
 	height: 60px;
 }
 
@@ -42,18 +49,25 @@ td.pictures {
 
 td.pictures img {
 	height: 40px;
+	padding: 3px 0px;
 }
 
-td.counter {
-	color: green;
+table .counter {
 	text-align: center;
 	width: 75px;
 }
 
-td.remain {
-	color: red;
+table  td.counter {
+	color: green;
+}
+
+table .remain {
 	text-align: center;
 	width: 50px;
+}
+
+table td.remain {
+	color: red;
 }
 
 div.options label {
@@ -65,13 +79,13 @@ div.options input {
 	text-align: right;
 }
 
-input,select {
+input, select {
 	padding: 0px;
 	margin-left: 5px;
 	margin-right: 5px;
 }
 
-input.money,input.price {
+input.money, input.price {
 	width: 40px;
 }
 

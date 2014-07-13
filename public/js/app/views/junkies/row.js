@@ -26,8 +26,8 @@ define([
 
 	function countMate(event) {
 		var junkyId = $(event.currentTarget).data("user");
-		var junky = new Junky({
-			id : junkyId
+		var junky = MateDatabase.junkies.find(function(item) {
+			return item.get("id") == junkyId;
 		});
 
 		junky.fetch({
@@ -35,14 +35,16 @@ define([
 				junky.countMate();
 				junky.save({}, {
 					success : function(junky) {
-						// TODO update row
+						//update view
 						new JunkyRowView({
 							el : $("#row-" + junky.get("id")),
 							junky : junky
 						});
-						// TODO wish good thirst
-					}
 
+						//update total count
+						var count = MateDatabase.junkies.totalCount();
+						$("#totalCount").text(count);
+					}
 				});
 			}
 		});

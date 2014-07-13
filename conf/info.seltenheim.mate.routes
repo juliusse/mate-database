@@ -11,7 +11,6 @@ POST	/settings		@info.seltenheim.mate.controllers.MateController.processSettings
 
 POST	/add			@info.seltenheim.mate.controllers.MateController.addJunky()
 POST	/addCredit		@info.seltenheim.mate.controllers.MateController.addCredit()
-POST	/addRemaining	@info.seltenheim.mate.controllers.MateController.addRemaining()
 
 # RESTful API
 GET		/rest/junky		@info.seltenheim.mate.controllers.JunkyController.getAllJunkies()

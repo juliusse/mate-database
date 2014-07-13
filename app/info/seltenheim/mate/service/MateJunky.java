@@ -4,7 +4,8 @@ public class MateJunky {
     private Integer id;
     private String name;
     private int count;
-    private double credit;
+    //in cents
+    private int credit;
 
     public MateJunky() {
         this(null, "", 0, 0);
@@ -14,7 +15,7 @@ public class MateJunky {
         this(null, name, count, remaining);
     }
 
-    public MateJunky(Integer id, String name, int count, double credit) {
+    public MateJunky(Integer id, String name, int count, int credit) {
         super();
         this.id = id;
         this.name = name;
@@ -46,15 +47,11 @@ public class MateJunky {
         this.count = count;
     }
 
-    public double getCredit() {
+    public int getCredit() {
         return credit;
     }
     
-    public String getCreditAsString() {
-    	return String.format("%.2f", getCredit());
-    }
-
-    public void setCredit(double credit) {
+    public void setCredit(int credit) {
         this.credit = credit;
     }
 

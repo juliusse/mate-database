@@ -83,7 +83,7 @@ define([
 		render : function(junky) {
 			// Compile the template using underscore
 			var data = {
-				junky : junky,
+				junky : junky
 			};
 			var template = _.template(html, data);
 			// Load the compiled HTML into the Backbone "el"

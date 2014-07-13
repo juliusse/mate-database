@@ -12,7 +12,7 @@ define([ 'underscore', 'backbone' ], function(_, Backbone) {
 		},
 		countMate : function() {
 			this.set("count", this.get("count") + 1);
-			this.set("credit", this.get("credit") - 0.75);
+			this.set("credit", this.get("credit") - 75);
 		}
 
 	});

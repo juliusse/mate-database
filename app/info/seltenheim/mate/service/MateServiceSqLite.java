@@ -23,7 +23,7 @@ public class MateServiceSqLite implements MateService {
     private static final String SELECT_BY_ID = "SELECT * FROM user WHERE id = ?";
     private static final String SELECT_BY_NAME = "SELECT * FROM user WHERE name = ?";
     private static final String INSERT_JUNKY = "INSERT INTO user (name) VALUES (?)";
-    private static final String UPDATE_JUNKY = "UPDATE user SET user_name = ?, bottle_count = ?, bottle_remain = ? WHERE id = ?";
+    private static final String UPDATE_JUNKY = "UPDATE user SET name = ?, total_bottles = ?, credit = ? WHERE id = ?";
     private static final String COUNT_MATE = "UPDATE user SET credit=credit-?, total_bottles=total_bottles+1 WHERE name = ?";
     private static final String ADD_REMAINING_MATE = "UPDATE user SET credit=credit+? WHERE name = ?";
     private static final String ALL_BOTTLES = "select sum(total_bottles) as count FROM user";
@@ -139,9 +139,9 @@ public class MateServiceSqLite implements MateService {
 
     private MateJunky rowToJunky(Map<String, Object> row) {
         final int id = Integer.parseInt(row.get("id").toString());
-        final String username = row.get("user_name").toString();
+        final String username = row.get("name").toString();
         final int count = Integer.parseInt(row.get("total_bottles").toString());
-        final double credit = Integer.parseInt(row.get("credit").toString()) / 100.0;
+        final int credit = Integer.parseInt(row.get("credit").toString());
 
         return new MateJunky(id, username, count, credit);
     }

@@ -34,7 +34,7 @@ public class JunkyController extends Controller {
     }
 
     public Result createJunky() throws IOException {
-        final MateJunky newJunky = objectMapper.readValue(request().body().asText(), MateJunky.class);
+        final MateJunky newJunky = objectMapper.readValue(request().body().asJson().toString(), MateJunky.class);
         final int id = mateService.addJunky(newJunky.getName()).getId();
 
         return ok(id + "");

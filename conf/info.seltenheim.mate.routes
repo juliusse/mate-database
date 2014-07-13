@@ -15,7 +15,7 @@ POST	/addCredit		@info.seltenheim.mate.controllers.MateController.addCredit()
 # RESTful API
 GET		/rest/junky		@info.seltenheim.mate.controllers.JunkyController.getAllJunkies()
 GET		/rest/junky/:id	@info.seltenheim.mate.controllers.JunkyController.getJunky(id : Integer)
-POST	/rest/junky/	@info.seltenheim.mate.controllers.JunkyController.createJunky()
+POST	/rest/junky		@info.seltenheim.mate.controllers.JunkyController.createJunky()
 PUT		/rest/junky/:id	@info.seltenheim.mate.controllers.JunkyController.updateJunky(id : Integer)
 
 # assets

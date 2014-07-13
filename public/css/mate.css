@@ -49,6 +49,7 @@ td.pictures {
 
 td.pictures img {
 	height: 40px;
+	padding: 3px 0px;
 }
 
 table .counter {

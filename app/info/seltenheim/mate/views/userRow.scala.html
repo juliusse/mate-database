@@ -1,9 +1,0 @@
-@(junky: info.seltenheim.mate.service.MateJunky)
-
-<tr id="row-@junky.getName()">
- <td class="user_name">@junky.getName()</td>
- <td class="count_button"><button class="btn btn-lg btn-warning btn-block" onclick="countMate('@junky.getName()')"><strong>Durst!</strong></button></td>
- <td class="pictures">@list(junky.getCount())</td>
- <td class="counter">@junky.getCount()</td>
- <td class="remain">@junky.getRemaining()</td>
-</tr>

@@ -11,7 +11,12 @@ POST	/settings		@info.seltenheim.mate.controllers.MateController.processSettings
 
 POST	/add			@info.seltenheim.mate.controllers.MateController.addJunky()
 POST	/addRemaining	@info.seltenheim.mate.controllers.MateController.addRemaining()
-POST	/count			@info.seltenheim.mate.controllers.MateController.countMate()
+
+# RESTful API
+GET		/rest/junky		@info.seltenheim.mate.controllers.JunkyController.getAllJunkies()
+GET		/rest/junky/:id	@info.seltenheim.mate.controllers.JunkyController.getJunky(id : Integer)
+POST	/rest/junky/	@info.seltenheim.mate.controllers.JunkyController.createJunky()
+PUT		/rest/junky/:id	@info.seltenheim.mate.controllers.JunkyController.updateJunky(id : Integer)
 
 # assets
 GET     /assets/dynamic/:filename	@info.seltenheim.mate.controllers.MateController.getImage(filename: String)

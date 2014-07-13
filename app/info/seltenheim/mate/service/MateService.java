@@ -10,9 +10,13 @@ public interface MateService {
 
     public List<MateJunky> findAllJunkies() throws IOException;
 
+    public MateJunky findJunkyById(int id) throws IOException;
+
     public MateJunky findJunkyByName(String name) throws IOException;
 
     public MateJunky addJunky(String name) throws IOException;
+
+    public boolean updateJunky(MateJunky junky) throws IOException;
 
     public int getTotalBottleCount() throws IOException;
 

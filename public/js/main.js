@@ -6,7 +6,9 @@ require.config({
 		bootstrap : 'ext/bootstrap.min',
 		text : 'ext/text',
 		image : 'ext/image',
-		mate : "app/mate"
+		mate : "app/mate",
+		jquerymeta: "ext/jquery.metadata",
+		jquerytable: "ext/jquery.tablesorter.min",
 	}
 
 });

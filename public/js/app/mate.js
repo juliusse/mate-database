@@ -1,5 +1,6 @@
-define([ 'jquery', 'app/models/junky', 'app/collections/junkies',
-		'app/views/junkies/row' ], function($, Junky, Junkies, JunkyRowView) {
+define([ 'jquery', 'jquerymeta', 'jquerytable', 'app/models/junky',
+		'app/collections/junkies', 'app/views/junkies/row' ], function($, meta,
+		table, Junky, Junkies, JunkyRowView) {
 	window.MateDatabase = {};
 	MateDatabase.junkies = new Junkies(junkiesJson);
 
@@ -8,6 +9,10 @@ define([ 'jquery', 'app/models/junky', 'app/collections/junkies',
 			el : $("#row-" + model.get("id")),
 			junky : model
 		});
+	});
+
+	$("#junkyTable").tablesorter({
+		sortList : [ [ 4, 1 ] ]
 	});
 
 	return MateDatabase;

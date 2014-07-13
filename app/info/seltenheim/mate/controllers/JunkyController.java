@@ -23,10 +23,10 @@ public class JunkyController extends Controller {
 
     public Result getAllJunkies() throws IOException {
         final List<MateJunky> junkies = mateService.findAllJunkies();
-        
+
         return ok(objectMapper.writeValueAsBytes(junkies));
     }
-    
+
     public Result getJunky(int id) throws IOException {
         final MateJunky junky = mateService.findJunkyById(id);
 
@@ -39,7 +39,7 @@ public class JunkyController extends Controller {
 
         return ok(id + "");
     }
-    
+
     public Result updateJunky(int id) throws IOException {
         final MateJunky junky = objectMapper.readValue(request().body().asJson().toString(), MateJunky.class);
 

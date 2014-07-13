@@ -11,18 +11,22 @@
 	            </div>
 	}
 <div class="row" id="table-container">
-	<table class="table table-striped" width="100%">
-		<tr>
-			<th class="user_name">Wer?</th>
-			<th class="count_button">Durst!</th>
-			<th class="pictures">Schon so viel?</th>
-			<th class="counter">gez&auml;hlt</th>
-			<th class="remain">&uuml;brig</th>
-		</tr>
-		@for(junky <- junkies) { 
-		<tr data-userId="@junky.getId()" id="row-@junky.getId()">
-		</tr>
-		 }
+	<table id="junkyTable" class="table table-striped">
+		<thead>
+			<tr>
+				<th class="user_name">Wer?</th>
+				<th class="count_button">Durst!</th>
+				<th class="pictures">Schon so viel?</th>
+				<th class="counter">gez&auml;hlt</th>
+				<th class="remain">&uuml;brig</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(junky <- junkies) { 
+			<tr data-userId="@junky.getId()" id="row-@junky.getId()">
+			</tr>
+			 }
+		</tbody>
 		<tr>
 			<th class="user_name">Team</th>
 			<th></th>

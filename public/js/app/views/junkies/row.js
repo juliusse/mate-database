@@ -1,26 +1,22 @@
 define([
 // These are path alias that we configured in our bootstrap
 'jquery', // lib/jquery/jquery
-'underscore', // lib/underscore/underscore
+'jquerymeta', 'jquerytable', 'underscore', // lib/underscore/underscore
 'backbone', 'app/models/junky', 'text!templates/junkyRow.html',
 		'image!/assets/dynamic/image1', 'image!/assets/dynamic/image2',
-		'image!/assets/dynamic/image3' ], function($, _, Backbone, Junky, html,
-		img1, img2, img3) {
+		'image!/assets/dynamic/image3' ], function($, meta, table, _, Backbone,
+		Junky, html, img1, img2, img3) {
 	function wishGoodThirst(mateButton) {
 		var origText = $(mateButton).html();
-		var origClass = mateButton.className;
-		var origOnClick = mateButton.onclick;
 
 		$(mateButton).html(":-)");
 		$(mateButton).toggleClass("btn-success");
 		$(mateButton).toggleClass("btn-warning");
-		mateButton.onclick = "";
 
 		setTimeout(function() {
 			$(mateButton).html(origText);
 			$(mateButton).toggleClass("btn-success");
 			$(mateButton).toggleClass("btn-warning");
-			mateButton.onclick = origOnClick;
 		}, 3000);
 	}
 
@@ -35,15 +31,22 @@ define([
 				junky.countMate();
 				junky.save({}, {
 					success : function(junky) {
-						//update view
+						// update view
 						new JunkyRowView({
 							el : $("#row-" + junky.get("id")),
 							junky : junky
 						});
 
-						//update total count
+						// update total count
 						var count = MateDatabase.junkies.totalCount();
 						$("#totalCount").text(count);
+
+						wishGoodThirst($("#row-" + junky.get("id")).find(
+								"button.countButton"));
+
+						$("#junkyTable").tablesorter({
+							sortList : [ [ 4, 1 ] ]
+						});
 					}
 				});
 			}

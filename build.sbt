@@ -49,4 +49,4 @@ parallelExecution in jacoco.Config := false
 
 jacoco.excludes in jacoco.Config := Seq("views*","*Routes*","*Reverse*")
 
-pipelineStages := Seq(rjs,gzip) 
+//pipelineStages := Seq(rjs,gzip) 

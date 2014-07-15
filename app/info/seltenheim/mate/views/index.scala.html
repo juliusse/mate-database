@@ -40,21 +40,8 @@
 </div>
 
 
-<div class="row">
-	<h3>Einzahlen</h3>
-	<form action="@routes.MateController.addCredit().toString()"
-		method="post">
-		<label for="username">Nutzer:</label> <select id="username"
-			name="username">
-			<option></option> @for(junky <- junkies) {
-			<option value="@junky.getName()">@junky.getName()</option> }
-		</select><br> <label for="amount">Betrag:</label> <input type="text"
-			class="money" id="amount" name="amount" value="10"> €<br>
-		<label for="pricePerBottle">Flaschenpreis:</label> <input
-			type="text" class="price" id="pricePerBottle" name=pricePerBottle
-			value="0.75"> €<br> <input type="submit"
-			value="Einzahlen">
-	</form>
+<div class="row" id="addMoney-container">
+
 </div>
 
 <div class="row" id="newUser-container">

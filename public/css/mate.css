@@ -66,8 +66,13 @@ table .remain {
 	width: 75px;
 }
 
-table td.remain {
+table td.remain.red {
 	color: red;
+	font-weight: bold;
+}
+
+table td.remain.green {
+	color: green;
 }
 
 div.options label {

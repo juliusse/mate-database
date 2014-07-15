@@ -20,5 +20,6 @@ PUT		/rest/junky/:id	@info.seltenheim.mate.controllers.JunkyController.updateJun
 
 # assets
 GET     /assets/dynamic/:filename	@info.seltenheim.mate.controllers.MateController.getImage(filename: String)
-GET     /assets/*file   info.seltenheim.mate.controllers.Assets.at(path="/public", file)
+GET     /assets/*file   			info.seltenheim.mate.controllers.Assets.versioned(path="/public", file)
+# GET     /webjars/*file              info.seltenheim.mate.controllers.WebJarAssets.at(file) 
 

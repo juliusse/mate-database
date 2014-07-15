@@ -1,10 +1,10 @@
 require.config({
 	paths : {
-		jquery : 'ext/jquery-2.1.1.min',
-		underscore : 'ext/underscore-1.6.0',
-		backbone : 'ext/backbone-1.1.2',
-		bootstrap : 'ext/bootstrap.min',
-		text : 'ext/text',
+		jquery : '../lib/jquery/jquery.min',
+		underscore : '../lib/underscorejs/underscore',
+		backbone : '../lib/backbonejs/backbone',
+		bootstrap : 'lib/bootstrap/js/bootstrap',
+		text : '../lib/requirejs-text/text',
 		image : 'ext/image',
 		mate : "app/mate",
 		jquerymeta: "ext/jquery.metadata",

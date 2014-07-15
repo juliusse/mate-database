@@ -18,26 +18,6 @@ public interface MateService {
 
     public boolean updateJunky(MateJunky junky) throws IOException;
 
-    public int getTotalBottleCount() throws IOException;
-
-    /**
-     * 
-     * @param junkyId
-     * @return new Count
-     * @throws IOException
-     */
-    public int countMate(String name) throws IOException;
-
-    /**
-     * 
-     * @param name
-     * @param credit
-     * @return new credit
-     * @throws IOException
-     */
-    public double addCredit(String name, double credit) throws IOException;
-    
-
     /**
      * 
      * @return price in euro

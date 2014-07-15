@@ -24,11 +24,6 @@ public class MateServiceSqLite implements MateService {
     private static final String SELECT_BY_NAME = "SELECT * FROM user WHERE name = ?";
     private static final String INSERT_JUNKY = "INSERT INTO user (name) VALUES (?)";
     private static final String UPDATE_JUNKY = "UPDATE user SET name = ?, total_bottles = ?, credit = ? WHERE id = ?";
-    private static final String COUNT_MATE = "UPDATE user SET credit=credit-?, total_bottles=total_bottles+1 WHERE name = ?";
-    private static final String ADD_REMAINING_MATE = "UPDATE user SET credit=credit+? WHERE name = ?";
-    private static final String ALL_BOTTLES = "select sum(total_bottles) as count FROM user";
-    // private static final String LOG_MATE_COUNT =
-    // "insert into insert_log (user_id) values (?)";
 
     private final String connectionString;
 
@@ -93,41 +88,6 @@ public class MateServiceSqLite implements MateService {
     public boolean updateJunky(MateJunky junky) throws IOException {
         final ExecutionResult result = SqlUtils.prepareAndExecuteStatement(connectionString, UPDATE_JUNKY, junky.getName(), junky.getCount(), junky.getCredit(), junky.getId());
         return result.getAffectedRows() == 1;
-    }
-
-    @Override
-    public int getTotalBottleCount() throws IOException {
-        final Map<String, Object> row = SqlUtils.selectEntityFromTable(connectionString, ALL_BOTTLES);
-        final String bottlesAsString = row.get("count").toString();
-
-        // if there are no users, an empty string is returned
-        if (bottlesAsString.isEmpty()) {
-            return 0;
-        } else {
-            return Integer.parseInt(bottlesAsString);
-
-        }
-    }
-
-    @Override
-    public int countMate(String name) throws IOException {
-        final double price = getCurrentBottlePrice();
-        final int priceInCent = (int) (price * 100);
-        SqlUtils.prepareAndExecuteStatement(connectionString, COUNT_MATE, priceInCent, name);
-        // SqlUtils.prepareAndExecuteStatement(connectionString, LOG_MATE_COUNT,
-        // name);
-
-        final MateJunky junky = findJunkyByName(name);
-        return junky.getCount();
-    }
-
-    @Override
-    public double addCredit(String name, double credit) throws IOException {
-        final int creditInCent = (int) (credit * 100);
-        SqlUtils.prepareAndExecuteStatement(connectionString, ADD_REMAINING_MATE, creditInCent, name);
-
-        final MateJunky junky = findJunkyByName(name);
-        return junky.getCredit();
     }
 
     @Override

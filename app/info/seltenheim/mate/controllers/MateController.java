@@ -9,7 +9,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -38,8 +37,7 @@ public class MateController extends Controller {
 
     public Result index() throws IOException {
         final List<MateJunky> junkies = mateService.findAllJunkies();
-        final int totalCount = mateService.getTotalBottleCount();
-        return ok(info.seltenheim.mate.views.html.index.render(junkies, new ObjectMapper().writeValueAsString(junkies), totalCount));
+        return ok(info.seltenheim.mate.views.html.index.render(new ObjectMapper().writeValueAsString(junkies)));
     }
 
     public Result showSettings() throws IOException {
@@ -92,32 +90,5 @@ public class MateController extends Controller {
         response().setContentType("image/png");
         response().setHeader("Etag", hash);
         return ok(image);
-    }
-
-    public Result addJunky() throws IOException {
-        // TODO more nice :)
-        final String username = request().body().asFormUrlEncoded().get("username")[0];
-
-        // TODO error handling
-        mateService.addJunky(username);
-
-        return redirect(routes.MateController.index());
-    }
-
-    public Result addCredit() throws IOException {
-        // TODO more nice :)
-        final Map<String, String[]> form = request().body().asFormUrlEncoded();
-        final String username = form.get("username")[0];
-        final double credit = Double.parseDouble(form.get("amount")[0]);
-
-        // validate fields
-        if (username == null || username.isEmpty()) {
-            flash("errorMessage", "No user selected");
-            return redirect(routes.MateController.index());
-        }
-
-        mateService.addCredit(username, credit);
-
-        return redirect(routes.MateController.index());
     }
 }

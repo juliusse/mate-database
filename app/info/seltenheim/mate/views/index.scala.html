@@ -1,4 +1,4 @@
-@(junkies : List[info.seltenheim.mate.service.MateJunky], junkiesJson : String, totalCount: Int)
+@(junkiesJson : String)
 
 @import info.seltenheim.mate.controllers._
 @layout() {
@@ -22,10 +22,7 @@
 			</tr>
 		</thead>
 		<tbody id="junky-container">
-			@for(junky <- junkies) { 
-			<tr data-userId="@junky.getId()" id="row-@junky.getId()">
-			</tr>
-			 }
+
 		</tbody>
 		<tfoot>
 		<tr>
@@ -33,7 +30,7 @@
 			<th></th>
 			<th></th>
 			<th class="counter">Total bottles</th>
-			<th id="totalCount">@totalCount</th>
+			<th id="totalCount">0</th>
 		</tr>
 		</tfoot>
 	</table>

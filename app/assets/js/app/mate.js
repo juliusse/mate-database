@@ -19,6 +19,10 @@ define([ 'jquery', 'jquerymeta', 'jquerytable', 'app/models/junky',
 	new addMoneyView({
 		el : $("#addMoney-container")
 	});
+	
+	// update total count
+	var count = MateDatabase.junkies.totalCount();
+	$("#totalCount").text(count);
 
 	$("#junkyTable").tablesorter({
 		sortList : [ [ 3, 1 ] ],

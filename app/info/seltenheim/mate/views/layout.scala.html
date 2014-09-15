@@ -1,4 +1,4 @@
-@()(content: Html)
+@(useRequire: Boolean, requireMainClass: String = "")(content: Html)
 
 @import info.seltenheim.mate.controllers._
 
@@ -12,7 +12,9 @@
         <title>Matenbank</title>
         <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.min.css")">
         <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("css/mate.css")">
-        <script type="text/javascript" data-main="@routes.Assets.versioned("js/main")" src="@routes.Assets.versioned("lib/requirejs/require.min.js")"></script>
+        @if(useRequire) {
+        <script type="text/javascript" data-main="@routes.Assets.versioned(requireMainClass)" src="@routes.Assets.versioned("lib/requirejs/require.min.js")"></script>
+        }
         
     </head>
     <body>
@@ -25,6 +27,9 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-7">
          			<ul class="nav navbar-nav">
          				@menuEntry(routes.MateController.showSettings().toString,"Settings")
+          			</ul>
+          			<ul class="nav navbar-nav">
+         				@menuEntry(routes.MateController.showLog().toString,"Junky Log")
           			</ul>
         		</div>
 			</div>

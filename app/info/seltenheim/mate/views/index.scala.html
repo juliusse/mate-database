@@ -1,7 +1,7 @@
 @(junkiesJson : String)
 
 @import info.seltenheim.mate.controllers._
-@layout() {
+@layout(true, "js/main") {
 	<script type="text/javascript">
 		var junkiesJson = @Html.apply(junkiesJson);
 	</script>

@@ -18,6 +18,8 @@ public interface MateService {
 
     public boolean updateJunky(MateJunky junky) throws IOException;
 
+    public List<MateLogEntry> getAllLogEntries() throws IOException;
+
     /**
      * 
      * @return price in euro

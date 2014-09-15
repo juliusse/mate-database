@@ -11,8 +11,8 @@ div.main {
 	min-height: 200px;
 }
 
-table {
-	
+span.blue {
+	color: blue;
 }
 
 table.mate_counter td.error_message {

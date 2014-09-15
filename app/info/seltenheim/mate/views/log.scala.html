@@ -1,0 +1,27 @@
+@(entries: List[info.seltenheim.mate.service.MateLogEntry])
+
+@import info.seltenheim.mate.controllers._
+@import info.seltenheim.mate.service._
+
+@getPayment(entry: MateLogEntry) = {
+	@((entry.getCredit_new() - entry.getCredit_old())/100.0)
+}
+
+@layout(false) {
+<div class="row">
+		<h2>Log</h2>
+		<p>A list with all logged events from the past</p>
+</div>
+
+@for(entry <- entries) {
+<div class="row">
+@if(entry.getType == info.seltenheim.mate.service.MateLogEntry.Type.drinking) {
+	@entry.getTimestamp() - <span class="blue">@entry.getMateJunky().getName()</span> hat eine Mate getrunken.
+}
+@if(entry.getType == info.seltenheim.mate.service.MateLogEntry.Type.payment) {
+	@entry.getTimestamp() - <span class="blue">@entry.getMateJunky().getName()</span> hat <span class="blue">@getPayment(entry)€</span> eingezahlt.
+}
+</div>
+}
+
+}

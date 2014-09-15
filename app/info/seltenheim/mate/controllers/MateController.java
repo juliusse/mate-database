@@ -71,6 +71,11 @@ public class MateController extends Controller {
         return redirect(routes.MateController.index());
     }
 
+    public Result showLog() throws IOException {
+
+        return ok(info.seltenheim.mate.views.html.log.render(mateService.getAllLogEntries()));
+    }
+
     public Result getImage(String name) throws IOException {
         final File image = fileSystemService.getImageAsFile(name);
         String hash = null;

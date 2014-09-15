@@ -6,36 +6,29 @@ CREATE TABLE user (
 	total_bottles INTEGER DEFAULT 0
 );
 
-DROP TABLE IF EXISTS mate_usage_log;
-CREATE TABLE mate_usage_log (
+DROP TABLE IF EXISTS junky_log;
+CREATE TABLE junky_log (
 	id INTEGER PRIMARY KEY,
 	user_id INTEGER REFERENCES user (id)
 		ON UPDATE CASCADE
 		ON DELETE CASCADE,
+	type STRING,
 	timestamp INTEGER default (datetime('now')),
 	credit_old INTEGER,
-	credit_new INTEGER
+	credit_new INTEGER,
+	bottles_old INTEGER,
+	bottles_new INTEGER,
 );
 
-DROP TRIGGER IF EXISTS mate_usage_log_trigger;
-CREATE TRIGGER mate_usage_log_trigger AFTER UPDATE OF total_bottles ON user FOR EACH ROW
+DROP TRIGGER IF EXISTS mate_drinking_trigger;
+CREATE TRIGGER mate_drinking_trigger AFTER UPDATE OF total_bottles ON user FOR EACH ROW WHEN OLD.total_bottles != NEW.total_bottles
 BEGIN
-	INSERT INTO mate_usage_log (user_id, credit_old, credit_new) VALUES (OLD.id, OLD.credit, NEW.credit);
+	INSERT INTO junky_log (user_id, type, credit_old, credit_new, bottles_old, bottles_new) VALUES (OLD.id, "drinking", OLD.credit, NEW.credit, OLD.total_bottles, NEW.total_bottles);
 END;
 
-DROP TABLE IF EXISTS credit_payment_log;
-CREATE TABLE credit_payment_log (
-	id INTEGER PRIMARY KEY,
-	user_id INTEGER REFERENCES user (id)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	timestamp INTEGER default (datetime('now')),
-	credit_old INTEGER,
-	credit_new INTEGER
-);
-
-DROP TRIGGER IF EXISTS credit_payment_log_trigger;
-CREATE TRIGGER credit_payment_log_trigger AFTER UPDATE OF credit ON user FOR EACH ROW WHEN OLD.total_bottles == NEW.total_bottles
+DROP TRIGGER IF EXISTS payment_trigger;
+CREATE TRIGGER payment_trigger AFTER UPDATE OF credit ON user FOR EACH ROW WHEN OLD.credit < NEW.credit
 BEGIN
-	INSERT INTO credit_payment_log (user_id, credit_old, credit_new) VALUES (OLD.id, OLD.credit, NEW.credit);
+	INSERT INTO junky_log (user_id, type, credit_old, credit_new, bottles_old, bottles_new) VALUES (OLD.id, "payment", OLD.credit, NEW.credit, OLD.total_bottles, NEW.total_bottles);
 END;
+

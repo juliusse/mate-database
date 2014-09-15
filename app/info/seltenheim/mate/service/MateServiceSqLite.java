@@ -22,6 +22,7 @@ public class MateServiceSqLite implements MateService {
 
     private static final String SELECT_BY_ID = "SELECT * FROM user WHERE id = ?";
     private static final String SELECT_BY_NAME = "SELECT * FROM user WHERE name = ?";
+    private static final String SELECT_LOG_ENTRIES = "SELECT * FROM junky_log ORDER BY timestamp DESC";
     private static final String INSERT_JUNKY = "INSERT INTO user (name) VALUES (?)";
     private static final String UPDATE_JUNKY = "UPDATE user SET name = ?, total_bottles = ?, credit = ? WHERE id = ?";
 
@@ -97,6 +98,16 @@ public class MateServiceSqLite implements MateService {
         return 0.75;
     }
 
+    @Override
+    public List<MateLogEntry> getAllLogEntries() throws IOException {
+        final List<MateLogEntry> entries = new ArrayList<MateLogEntry>();
+        final List<Map<String, Object>> rows = SqlUtils.selectListFromTable(connectionString, SELECT_LOG_ENTRIES);
+        for (Map<String, Object> row : rows) {
+            entries.add(rowToLogEntry(row));
+        }
+        return entries;
+    }
+
     private MateJunky rowToJunky(Map<String, Object> row) {
         final int id = Integer.parseInt(row.get("id").toString());
         final String username = row.get("name").toString();
@@ -104,5 +115,19 @@ public class MateServiceSqLite implements MateService {
         final int credit = Integer.parseInt(row.get("credit").toString());
 
         return new MateJunky(id, username, count, credit);
+    }
+
+    private MateLogEntry rowToLogEntry(Map<String, Object> row) throws IOException {
+        final int id = Integer.parseInt(row.get("id").toString());
+        final int userId = Integer.parseInt(row.get("user_id").toString());
+        final MateJunky junky = findJunkyById(userId);
+        final MateLogEntry.Type type = MateLogEntry.Type.valueOf(row.get("type").toString());
+        final String timestamp = row.get("timestamp").toString();
+        final int credit_old = Integer.parseInt(row.get("credit_old").toString());
+        final int credit_new = Integer.parseInt(row.get("credit_new").toString());
+        final int bottles_new = Integer.parseInt(row.get("bottles_new").toString());
+        final int bottles_old = Integer.parseInt(row.get("bottles_old").toString());
+
+        return new MateLogEntry(id, junky, type, timestamp, credit_old, credit_new, bottles_old, bottles_new);
     }
 }

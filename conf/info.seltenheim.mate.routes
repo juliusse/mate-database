@@ -8,6 +8,7 @@
 GET		/				@info.seltenheim.mate.controllers.MateController.index()
 GET		/settings		@info.seltenheim.mate.controllers.MateController.showSettings()
 POST	/settings		@info.seltenheim.mate.controllers.MateController.processSettings()
+GET		/log			@info.seltenheim.mate.controllers.MateController.showLog()
 
 # RESTful API
 GET		/rest/junky		@info.seltenheim.mate.controllers.JunkyController.getAllJunkies()

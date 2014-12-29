@@ -1,7 +1,7 @@
 SBT=./sbt.make
 SBT_ARGS=-Dsbt.log.noformat=true
 
-INSTALL_DIR=$(DESTDIR)/usr/share/mate-db/frontend
+INSTALL_DIR=$(DESTDIR)/usr/share/mate-db
 
 VERSION_FILE=conf/app.version
 VERSION_STRING=application.version=

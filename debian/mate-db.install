@@ -1,0 +1,2 @@
+debian/res/mate-db-apache.conf        etc/mate-db/apache
+debian/res/mate-db-apache-ssl.conf    etc/mate-db/apache

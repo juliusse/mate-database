@@ -1,0 +1,12 @@
+Source: mate-db
+Section: unknown
+Priority: extra
+Maintainer: Julius Seltenheim <contact@julius-seltenheim.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+
+Package: mate-db
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, openjdk-7-jre-headless
+Recommends: apache2
+Description: Database for mate junkies

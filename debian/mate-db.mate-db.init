@@ -18,7 +18,7 @@ NAME=mate-db             # Introduce the short server's name here
 DAEMON=/usr/share/mate-db/bin/mate-database # Introduce the server's location here
 PLAY_SECRET=$(cat /var/mate-db/secret)
 PIDFILE_PLAY=/tmp/mate-db-play.pid
-DAEMON_ARGS="-Dapplication.secret=${PLAY_SECRET} -Dconfig.resource=live.conf -Dpidfile.path=${PIDFILE_PLAY} -Dlogger.file=conf/logger.xml" # Arguments to run the daemon with
+DAEMON_ARGS="-Dapplication.secret=${PLAY_SECRET} -Dconfig.resource=live.conf -Dpidfile.path=${PIDFILE_PLAY} -Dlogger.file=conf/logger.xml -Dhttp.port=9002 -Dhttp.address=127.0.0.1" # Arguments to run the daemon with
 PIDFILE=/var/run/mate-db.pid
 SCRIPTNAME=mate-db
 SCRIPTNAME_LONG=/etc/init.d/${SCRIPTNAME}

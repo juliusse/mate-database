@@ -24,6 +24,7 @@ public class Global extends GlobalSettings {
     public void onStart(Application application) {
         initializeSpring();
         ensureDatabaseIsPresent();
+        migrateDatabase();
 
         super.onStart(application);
     }
@@ -48,6 +49,12 @@ public class Global extends GlobalSettings {
                 Logger.error("Cannot create new database.", e);
             }
         }
+    }
+    
+    private void migrateDatabase() {
+        final Configuration config = Play.application().configuration();
+        final File databaseFile = new File(config.getString("info.seltenheim.mate.sqlite.location"));
+        DatabaseMigrator.migrateDatabase(databaseFile.getAbsolutePath());
     }
 
     @SuppressWarnings("rawtypes")

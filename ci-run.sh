@@ -17,7 +17,7 @@ dpkg-buildpackage -uc -us -b
 mv ../mate-db_*.deb jenkins/builds/
 
 # move mate-db files
-mv application/target/universal/mate-dabatase-*.zip jenkins/builds/
+mv application/target/universal/*.zip jenkins/builds/
 mv application/target/scala-2.10/jacoco/jacoco.exec jenkins/jacoco/frontend.exec
 
 # remove MVC-classes that should be ignored

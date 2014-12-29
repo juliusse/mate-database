@@ -20,8 +20,8 @@ build:
 	
 install: check_version
 	mkdir -p $(INSTALL_DIR)
-	cd target/universal/ && unzip -o mate-database-$(VERSION).zip && \
-		mv mate-database-$(VERSION)/* $(INSTALL_DIR)/
+	cd target/universal/ && unzip -o mate-database-*.zip && \
+		mv mate-database-*/* $(INSTALL_DIR)/
 
 clean:
 	#clean is called by dpkg-buildpackage with fakeroot, does not work

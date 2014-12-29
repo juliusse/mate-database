@@ -31,8 +31,9 @@ libraryDependencies ++= Seq(
 	//belongs together
 	, "org.springframework" % "spring-context" % "4.0.3.RELEASE"
 	, "cglib" % "cglib" % "2.2.2"
-    , "org.jacoco" % "org.jacoco.core" % "0.6.3.201306030806" artifacts(Artifact("org.jacoco.core", "jar", "jar"))
-	, "org.jacoco" % "org.jacoco.report" % "0.6.3.201306030806" artifacts(Artifact("org.jacoco.report", "jar", "jar"))
+	//jacoco
+    , "org.jacoco" % "org.jacoco.core" % "0.7.2.201409121644" artifacts(Artifact("org.jacoco.core", "jar", "jar"))
+	, "org.jacoco" % "org.jacoco.report" % "0.7.2.201409121644" artifacts(Artifact("org.jacoco.report", "jar", "jar")) 
 )     
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)

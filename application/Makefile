@@ -16,7 +16,7 @@ check_version:
 
 build:
 	chmod +x $(SBT)
-	$(SBT) $(SBT_ARGS) clean jacoco:cover dist
+	$(SBT) $(SBT_ARGS) clean dist
 	
 install: check_version
 	mkdir -p $(INSTALL_DIR)

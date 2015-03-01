@@ -11,9 +11,12 @@ import java.util.Map;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import play.Configuration;
 import play.Logger;
 import play.Play;
+import play.libs.Json;
 
 @Component
 @Profile("mateSqLite")
@@ -96,6 +99,20 @@ public class MateServiceSqLite implements MateService {
         // TODO get price from config file
         Logger.warn("Bottle price not implement: See https://github.com/juliusse/mate-database/issues/5");
         return 0.75;
+    }
+
+    @Override
+    public JsonNode getMetaInformationAsJson() throws IOException {
+        Map<String, Object> metaRow = SqlUtils.selectEntityFromTable(connectionString, "SELECT * FROM meta WHERE id = ?", 1);
+        final String dbVersion = metaRow.get("version").toString();
+        final String bottlesAvailable = metaRow.get("bottles_available").toString();
+
+        return Json.parse("{\"dbVersion\":" + dbVersion + ", \"bottlesAvailable\":" + bottlesAvailable + "}");
+    }
+
+    @Override
+    public void addMate(int count) throws IOException {
+        SqlUtils.prepareAndExecuteStatement(connectionString, "UPDATE meta SET bottles_available = bottles_available + ?", count);
     }
 
     @Override

@@ -6,7 +6,7 @@ define([
 'app/utils',
 'app/models/junky', 
 'app/views/junkies/row',
-'text!templates/addMoneyForm.html' ], 
+'text!templates/addMoneyForm.html'], 
 function($, _, Backbone,Utils , Junky,JunkyView, html) {
 
 	addMoneyFormView = Backbone.View.extend({

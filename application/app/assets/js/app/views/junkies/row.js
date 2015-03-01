@@ -32,6 +32,8 @@ define(
 						junky.countMate();
 						junky.save({}, {
 							success : function(junky) {
+								//start reload of bottle count
+								MateDatabase.meta.refresh();
 								// update view
 								new JunkyRowView({
 									el : $("#junky-container"),
@@ -58,6 +60,8 @@ define(
 						});
 					}
 				});
+				
+				
 			}
 
 			function createCheckList(junky) {

@@ -76,6 +76,16 @@ public class MateController extends Controller {
         return ok(info.seltenheim.mate.views.html.log.render(mateService.getAllLogEntries()));
     }
 
+    public Result getMeta() throws IOException {
+        return ok(mateService.getMetaInformationAsJson());
+    }
+    
+    public Result addMate() throws IOException {
+        final int mateCount = request().body().asJson().get("count").asInt();
+        mateService.addMate(mateCount);
+        return ok();
+    }
+
     public Result getImage(String name) throws IOException {
         final File image = fileSystemService.getImageAsFile(name);
         String hash = null;

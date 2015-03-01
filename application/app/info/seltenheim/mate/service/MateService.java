@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 @Component
 public interface MateService {
 
@@ -17,6 +19,10 @@ public interface MateService {
     public MateJunky addJunky(String name) throws IOException;
 
     public boolean updateJunky(MateJunky junky) throws IOException;
+    
+    public JsonNode getMetaInformationAsJson() throws IOException;
+    
+    public void addMate(int count) throws IOException;
 
     public List<MateLogEntry> getAllLogEntries() throws IOException;
 

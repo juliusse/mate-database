@@ -1,1 +1,7 @@
-application.version="2.1.0"
+application.version="2.2.0"
+
+## 2.2.0
+# bottle count
+# bigger buttons
+# comma for cent amounts
+# page reload when new junky is added

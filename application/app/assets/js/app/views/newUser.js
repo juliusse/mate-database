@@ -2,15 +2,15 @@ define([
 // These are path alias that we configured in our bootstrap
 'jquery', // lib/jquery/jquery
 'underscore', // lib/underscore/underscore
-'backbone', 'app/models/junky', 'app/views/junkies/row', 'text!templates/newJunkyForm.html' ],
-		function($, _, Backbone, Junky, JunkyView, html) {
+'backbone', 'app/utils', 'app/models/junky', 'app/views/junkies/row', 'text!templates/newJunkyForm.html' ],
+		function($, _, Backbone, Utils, Junky, JunkyView, html) {
 
 			newUserFormView = Backbone.View.extend({
 				defaults : {},
 				initialize : function(data) {
 					this.render();
 				},
-				addUser : function() {
+				addUser : function(e) {
 					var input = $('input#newUser-name')[0];
 					var username = input.value;
 					input.value = "";
@@ -27,9 +27,12 @@ define([
 							});
 						}
 					});
+					
+					setTimeout(function() {location.reload();}, 500);
+					return Utils.cancelDefaultAction(e);
 				},
 				events : {
-					"click button#newUser-button" : "addUser",
+					"submit #newUser-form" : "addUser",
 				},
 				render : function() {
 					// Compile the template using underscore

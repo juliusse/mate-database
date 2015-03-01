@@ -94,12 +94,12 @@ input.money, input.price {
 	width: 40px;
 }
 
-input.user_name {
-	width: 100px;
+#addMoney-user {
+	width: 200px;
 }
 
-select.user_wahl {
-	background: #ffffff;
+#addMoney-amount {
+	width: 100px;
 }
 
 .mate {

@@ -1,16 +1,20 @@
-<h3>Einzahlen</h3>
-
-<label for="username">Nutzer:</label>
-<select id="addMoney-user" name="username">
-	<option value="-1"></option>
-	<%
-	_.each(junkies.models,function(junky) {
-		%><option value="<%= junky.get('id')%>"><%= junky.get('name')%></option><%
-	});
-	%>
-</select>
-<br>
-<label for="amount">Betrag:</label>
-<input type="text" class="money" id="addMoney-amount" name="amount" value="10">
-€
-<button type="submit" class="btn btn-large btn-success" id="addMoney-add">Einzahlen</button>
+<form id="addMoney-form" class="form-inline">
+	<h3>Einzahlen</h3>
+	
+	<div class="form-group">
+		<label class="control-label" for="addMoney-user">Nutzer:</label>
+		<select class="form-control input-lg" id="addMoney-user" name="username">
+			<option value="-1"></option>
+			<%
+			_.each(junkies.models,function(junky) {
+				%><option value="<%= junky.get('id')%>"><%= junky.get('name')%></option><%
+			});
+			%>
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="addMoney-amount">Betrag:</label>
+		<input type="text" class="form-control input-lg money" id="addMoney-amount" name="amount" value="10.00"><span style="font-size: 15pt; vertical-align: middle;">€</span>
+	</div>
+	<button type="submit" class="btn btn-lg btn-success" id="addMoney-add">Einzahlen</button>
+</form>

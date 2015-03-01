@@ -2,16 +2,19 @@ define([
 // These are path alias that we configured in our bootstrap
 'jquery', // lib/jquery/jquery
 'underscore', // lib/underscore/underscore
-'backbone', 'app/models/junky', 'app/views/junkies/row',
-		'text!templates/addMoneyForm.html' ], function($, _, Backbone, Junky,
-		JunkyView, html) {
+'backbone', 
+'app/utils',
+'app/models/junky', 
+'app/views/junkies/row',
+'text!templates/addMoneyForm.html' ], 
+function($, _, Backbone,Utils , Junky,JunkyView, html) {
 
 	addMoneyFormView = Backbone.View.extend({
 		defaults : {},
 		initialize : function(data) {
 			this.render();
 		},
-		addMoney : function() {
+		addMoney : function(e) {
 			var junkies = MateDatabase.junkies;
 			var junkyId = $('select#addMoney-user').val();
 			var junky = MateDatabase.junkies.find(function(item) {
@@ -41,9 +44,10 @@ define([
 					});
 				}
 			});
+			return Utils.cancelDefaultAction(e);
 		},
 		events : {
-			"click button#addMoney-add" : "addMoney",
+			"submit #addMoney-form" : "addMoney",
 		},
 		render : function() {
 			var junkies = MateDatabase.junkies;

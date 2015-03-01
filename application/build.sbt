@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
 	, "commons-codec" % "commons-codec" % "1.8"
 	//Web stuff
 	,"org.webjars" %% "webjars-play" % "2.3.0"
-  	,"org.webjars" % "bootstrap" % "3.1.1-2"
+  	,"org.webjars" % "bootstrap" % "3.3.1"
   	,"org.webjars" % "jquery" % "2.1.1"
   	,"org.webjars" % "backbonejs" % "1.1.2-2"
   	,"org.webjars" % "underscorejs" % "1.6.0-3"

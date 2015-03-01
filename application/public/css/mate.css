@@ -35,7 +35,7 @@ table .count_button {
 	width: 110px;
 }
 
-td.count_button {	
+td.count_button {
 	height: 60px;
 }
 
@@ -100,6 +100,12 @@ input.money, input.price {
 
 #addMoney-amount {
 	width: 100px;
+}
+
+#undo-alert {
+	position: fixed;
+	top: 100px;
+	margin-left: 38%;
 }
 
 .mate {

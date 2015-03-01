@@ -3,10 +3,10 @@ define(
 		// These are path alias that we configured in our bootstrap
 		'jquery', // lib/jquery/jquery
 		'jquerymeta', 'jquerytable', 'underscore', // lib/underscore/underscore
-		'backbone', 'app/models/junky', 'text!templates/junkyRow.html',
+		'backbone', 'app/models/junky', 'app/views/undoCount', 'text!templates/junkyRow.html',
 				'image!/assets/dynamic/image1', 'image!/assets/dynamic/image2',
 				'image!/assets/dynamic/image3' ],
-		function($, meta, table, _, Backbone, Junky, html, img1, img2, img3) {
+		function($, meta, table, _, Backbone, Junky, UndoView, html, img1, img2, img3) {
 			function wishGoodThirst(mateButton) {
 				var origText = $(mateButton).html();
 
@@ -57,6 +57,12 @@ define(
 									}
 								});
 							}
+						});
+						
+						//create undo view
+						new UndoView({
+							el : $("#undoCount-container"),
+							junky : junky
 						});
 					}
 				});

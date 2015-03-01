@@ -22,7 +22,8 @@ function($, _, Backbone,Utils , Junky,JunkyView, html) {
 			});
 
 			var curAmount = junky.get("credit");
-			var amount = $('input#addMoney-amount').val() * 100;
+			var payment = $('input#addMoney-amount').val().replace(",",".");
+			var amount = payment * 100;
 
 			junky.save({
 				credit : curAmount + amount

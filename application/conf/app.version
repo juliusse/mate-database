@@ -1,4 +1,7 @@
-application.version="2.2.0"
+application.version="3.0.0"
+
+## 3.0.0
+# convert to angular.js
 
 ## 2.2.0
 # bottle count

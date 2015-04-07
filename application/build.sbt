@@ -25,9 +25,7 @@ libraryDependencies ++= Seq(
 	,"org.webjars" %% "webjars-play" % "2.3.0"
   	,"org.webjars" % "bootstrap" % "3.1.1-2"
   	,"org.webjars" % "jquery" % "2.1.1"
-  	,"org.webjars" % "backbonejs" % "1.1.2-2"
-  	,"org.webjars" % "underscorejs" % "1.6.0-3"
-  	,"org.webjars" % "requirejs-text" % "2.0.10-1"
+  	,"org.webjars" % "angularjs" % "1.3.15"
 	//belongs together
 	, "org.springframework" % "spring-context" % "4.0.3.RELEASE"
 	, "cglib" % "cglib" % "2.2.2"

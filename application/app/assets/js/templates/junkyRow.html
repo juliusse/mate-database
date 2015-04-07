@@ -1,7 +1,0 @@
-<tr data-userId="<%= junky.get("id") %>" id="row-<%= junky.get("id") %>">
-	<td class="user_name"><%= junky.get("name") %></td>
-	<td class="count_button"><button data-user="<%= junky.get("id") %>" class="btn btn-lg btn-warning btn-block countButton"><strong>Durst!</strong></button></td>
-	<td class="pictures"></td>
-	<td class="counter"><%= junky.get("count") %></td>
-	<td class="remain <% if(junky.get('credit') <= 0) {%>red<%} else {%>green<%}%>"><%= (junky.get("credit")/100.0).toFixed(2) %> €</td>
-</tr>

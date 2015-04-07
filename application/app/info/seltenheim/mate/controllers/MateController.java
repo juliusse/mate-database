@@ -1,6 +1,5 @@
 package info.seltenheim.mate.controllers;
 
-import info.seltenheim.mate.service.MateJunky;
 import info.seltenheim.mate.service.MateService;
 import info.seltenheim.services.filesystem.FileSystemService;
 
@@ -8,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -36,12 +34,7 @@ public class MateController extends Controller {
     FileSystemService fileSystemService;
 
     public Result index() throws IOException {
-        final List<MateJunky> junkies = mateService.findAllJunkies();
-        return ok(info.seltenheim.mate.views.html.index.render(new ObjectMapper().writeValueAsString(junkies)));
-    }
-
-    public Result showSettings() throws IOException {
-        return ok(info.seltenheim.mate.views.html.settings.render());
+        return ok(info.seltenheim.mate.views.html.layout.render(true));
     }
 
     public Result processSettings() throws IOException {
@@ -71,19 +64,19 @@ public class MateController extends Controller {
         return redirect(routes.MateController.index());
     }
 
-    public Result showLog() throws IOException {
-
-        return ok(info.seltenheim.mate.views.html.log.render(mateService.getAllLogEntries()));
-    }
-
     public Result getMeta() throws IOException {
         return ok(mateService.getMetaInformationAsJson());
     }
-    
+
     public Result addMate() throws IOException {
         final int mateCount = request().body().asJson().get("count").asInt();
         mateService.addMate(mateCount);
         return ok();
+    }
+
+    public Result getLogEntries() throws IOException {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        return ok(objectMapper.writeValueAsBytes(mateService.getAllLogEntries()));
     }
 
     public Result getImage(String name) throws IOException {

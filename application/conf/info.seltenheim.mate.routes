@@ -6,19 +6,16 @@
 # Home page
 
 GET		/				@info.seltenheim.mate.controllers.MateController.index()
-GET		/settings		@info.seltenheim.mate.controllers.MateController.showSettings()
 POST	/settings		@info.seltenheim.mate.controllers.MateController.processSettings()
-GET		/log			@info.seltenheim.mate.controllers.MateController.showLog()
 
 # RESTful API
-GET		/rest/junky		@info.seltenheim.mate.controllers.JunkyController.getAllJunkies()
-GET		/rest/junky/:id	@info.seltenheim.mate.controllers.JunkyController.getJunky(id : Integer)
-POST	/rest/junky		@info.seltenheim.mate.controllers.JunkyController.createJunky()
-PUT		/rest/junky/:id	@info.seltenheim.mate.controllers.JunkyController.updateJunky(id : Integer)
-GET		/rest/meta		@info.seltenheim.mate.controllers.MateController.getMeta()
-#slightly hackish ;D
-GET		/rest/meta/1	@info.seltenheim.mate.controllers.MateController.getMeta()
+GET		/rest/junkies		@info.seltenheim.mate.controllers.JunkyController.getAllJunkies()
+GET		/rest/junkies/:id	@info.seltenheim.mate.controllers.JunkyController.getJunky(id : Integer)
+POST	/rest/junkies		@info.seltenheim.mate.controllers.JunkyController.createJunky()
+POST	/rest/junkies/:id	@info.seltenheim.mate.controllers.JunkyController.updateJunky(id : Integer)
+GET		/rest/meta			@info.seltenheim.mate.controllers.MateController.getMeta()
 POST	/rest/mate/add	@info.seltenheim.mate.controllers.MateController.addMate()
+GET		/rest/log			@info.seltenheim.mate.controllers.MateController.getLogEntries()
 
 # assets
 GET     /assets/dynamic/:filename	@info.seltenheim.mate.controllers.MateController.getImage(filename: String)

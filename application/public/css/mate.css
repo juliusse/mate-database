@@ -3,6 +3,10 @@ body {
 	/*  background: #dddddd;*/
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 a:link, a:visited, a:hover, a:active {
 	text-decoration: none;
 }

@@ -1,5 +1,7 @@
 <div ng-init="reloadJunkies()">
-Verfügbare Mate: <strong><span id="bottlesAvailable">{{mateAvailable}}</span></strong> Flaschen
+	<div class="container-fluid">
+		Verfügbare Mate: <strong><span id="bottlesAvailable">{{mateAvailable}}</span></strong> Flaschen
+	</div>
 	<div class="row">
 		<table ng-cloak class="table table-striped">
 			<thead>
@@ -25,8 +27,8 @@ Verfügbare Mate: <strong><span id="bottlesAvailable">{{mateAvailable}}</span></
 				<th class="user_name">Team</th>
 				<th></th>
 				<th></th>
-				<th class="counter">Total bottles</th>
-				<th id="totalCount">{{totalMate}}</th>
+				<th class="counter">{{totalMate}}</th>
+				<th>{{totalMoney}} €</th>
 			</tr>
 			</tfoot>
 		</table>

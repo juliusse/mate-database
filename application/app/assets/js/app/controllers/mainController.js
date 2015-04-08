@@ -11,6 +11,7 @@ define([ 'angular' ], function(angular) {
 						$scope.junkies = Junky.fetchAll();
 						$scope.mateAvailable = 0;
 						$scope.totalMate = 0;
+						$scope.totalMoney = 0;
 						
 						$scope.buttonIdForGoodThirst = undefined;
 
@@ -71,7 +72,8 @@ define([ 'angular' ], function(angular) {
 						$scope.reloadJunkies = function() {
 							Junky.fetchAll().$promise.then(function(junkies) {
 								$scope.junkies = junkies;
-								$scope.totalMate = $scope.getTotalMate();
+								$scope.updateTotalValues();
+							
 								
 								if($scope.buttonIdForGoodThirst != undefined) {
 									setTimeout(function() {
@@ -91,14 +93,16 @@ define([ 'angular' ], function(angular) {
 							});
 						};
 
-						$scope.getTotalMate = function() {
-							var total = 0;
+						$scope.updateTotalValues = function() {
+							var mate = 0;
+							var money = 0;
 							$scope.junkies.forEach(function(item) {
-
-								total += item.count;
-
+								mate += item.count;
+								money += item.credit;
 							});
-							return total;
+							
+							$scope.totalMate = mate;
+							$scope.totalMoney = (money /100.0).toFixed(2);
 						};
 
 						$scope.countMate = function(junkyId) {

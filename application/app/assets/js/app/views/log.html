@@ -1,14 +1,14 @@
 <div class="row">
-		<h2>Log</h2>
-		<p>A list with all logged events from the past</p>
+    <h2>Log</h2>
+    <p>A list with all logged events from the past</p>
 </div>
 
 
 <div class="row" ng-repeat="logEntry in logEntries">
-<div ng-if="logEntry.type == 'drinking'">
-	{{logEntry.timestamp}} - <span class="blue">{{logEntry.mateJunky.name}}</span> hat eine Mate getrunken.
-</div>
-<div ng-if="logEntry.type == 'payment'">
-	{{logEntry.timestamp}} - <span class="blue">{{logEntry.mateJunky.name}}</span> hat <span class="blue">{{(logEntry.credit_new - logEntry.credit_old)/100.0}}€</span> eingezahlt.
-</div>
+    <div ng-if="logEntry.type == 'drinking'">
+        {{logEntry.timestamp}} - <span class="blue">{{logEntry.mateJunky.name}}</span> hat eine Mate getrunken.
+    </div>
+    <div ng-if="logEntry.type == 'payment'">
+        {{logEntry.timestamp}} - <span class="blue">{{logEntry.mateJunky.name}}</span> hat <span class="blue">{{(logEntry.credit_new - logEntry.credit_old)/100.0}}€</span> eingezahlt.
+    </div>
 </div>

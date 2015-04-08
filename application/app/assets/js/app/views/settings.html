@@ -1,44 +1,44 @@
-<form method="POST" action="@routes.MateController.processSettings()" enctype="multipart/form-data"> 
-	<div class="row">
-		<h2>Images</h2>
-		<p>There are three different levels for the list, which can be configured</p>
-	</div>
-	<div class="row">
-		<div class="col-sm-4">
-			<div class="col-sm-6">
-				<strong>Level 1</strong><br>
-				Per Bottles: <strong>1</strong><br>
-			</div>
-			<div class="col-sm-6">
-				<img ng-src="{{img1}}" style="height: 40px;">
-			</div>
-			<input type="file" name="1_image" accept=".png,.jpg,.jpeg">
-		</div>
-		<div class="col-sm-4">
-			<div class="col-sm-6">
-				<strong>Level 2</strong><br>
-				Per Bottles: <strong>20</strong><
-			</div>
-			<div class="col-sm-6">
-				<img ng-src="{{img2}}" style="height: 40px;">
-			</div>
-			<input type="file" name="2_image" accept=".png,.jpg,.jpeg">
-		</div>
-		<div class="col-sm-4">
-			<div class="col-sm-6">
-				<strong>Level 3</strong><br>
-				Per Bottles: <strong>160</strong>
-			</div>
-			<div class="col-sm-6">
-				<img ng-src="{{img3}}" style="height: 40px;">
-			</div>
-			<input type="file" name="3_image" accept=".png,.jpg,.jpeg">
-			<br>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-offset-3 col-sm-6">
-			<button class="btn btn-success btn-block">Upload Images</button>
-		</div>
-	</div>
+<form method="POST" action="@routes.MateController.processSettings()" enctype="multipart/form-data">
+    <div class="row">
+        <h2>Images</h2>
+        <p>There are three different levels for the list, which can be configured</p>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="col-sm-6">
+                <strong>Level 1</strong><br>
+                Per Bottles: <strong>1</strong><br>
+            </div>
+            <div class="col-sm-6">
+                <img ng-src="{{img1}}" style="height: 40px;">
+            </div>
+            <input type="file" name="1_image" accept=".png,.jpg,.jpeg">
+        </div>
+        <div class="col-sm-4">
+            <div class="col-sm-6">
+                <strong>Level 2</strong><br>
+                Per Bottles: <strong>20</strong><
+            </div>
+            <div class="col-sm-6">
+                <img ng-src="{{img2}}" style="height: 40px;">
+            </div>
+            <input type="file" name="2_image" accept=".png,.jpg,.jpeg">
+        </div>
+        <div class="col-sm-4">
+            <div class="col-sm-6">
+                <strong>Level 3</strong><br>
+                Per Bottles: <strong>160</strong>
+            </div>
+            <div class="col-sm-6">
+                <img ng-src="{{img3}}" style="height: 40px;">
+            </div>
+            <input type="file" name="3_image" accept=".png,.jpg,.jpeg">
+            <br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+            <button class="btn btn-success btn-block">Upload Images</button>
+        </div>
+    </div>
 </form>

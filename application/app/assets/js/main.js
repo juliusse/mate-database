@@ -6,6 +6,7 @@ require.config({
 		angular : '../lib/angularjs/angular.min',
 		ngResource : '../lib/angularjs/angular-resource.min',
 		ngRoute : '../lib/angularjs/angular-route.min',
+		spin : '../lib/spin-js/spin',
 		bootstrap : 'lib/bootstrap/js/bootstrap',
 		image : 'ext/image',
 	},
@@ -27,7 +28,8 @@ require.config({
 define([
 // These are path alias that we configured in our bootstrap
 'angular' //
-, 'app/app' ], function(angular, app) {	
+, 'spin' //
+, 'app/app' ], function(angular, spin, app) {	
 
 	var $html = angular.element(document.getElementsByTagName('html')[0]);
 	angular.element().ready(function() {

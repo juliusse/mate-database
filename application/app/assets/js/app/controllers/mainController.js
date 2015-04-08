@@ -1,6 +1,6 @@
 'use strict';
 
-define([ 'angular' ], function(angular) {
+define([ 'angular', 'spin' ], function(angular,Spinner) {
 	var controller = {
 		attach : function(module) {
 			module.controller('MainViewController', [
@@ -8,12 +8,41 @@ define([ 'angular' ], function(angular) {
 					'$http',
 					'Junky',
 					function($scope, $http, Junky) {
-						$scope.junkies = Junky.fetchAll();
+						$scope.junkies = [];
 						$scope.mateAvailable = 0;
 						$scope.totalMate = 0;
 						$scope.totalMoney = 0;
+						$scope.blockInput = true;
 						
 						$scope.buttonIdForGoodThirst = undefined;
+						
+						$scope.init = function() {
+							$scope.createSpinner();
+							$scope.reloadJunkies();
+						}
+						
+						$scope.createSpinner = function() {
+							var opts = {
+									  lines: 15, // The number of lines to draw
+									  length: 24, // The length of each line
+									  width: 10, // The line thickness
+									  radius: 45, // The radius of the inner circle
+									  corners: 1, // Corner roundness (0..1)
+									  rotate: 0, // The rotation offset
+									  direction: 1, // 1: clockwise, -1: counterclockwise
+									  color: '#000', // #rgb or #rrggbb or array of colors
+									  speed: 1, // Rounds per second
+									  trail: 60, // Afterglow percentage
+									  shadow: false, // Whether to render a shadow
+									  hwaccel: false, // Whether to use hardware acceleration
+									  className: 'spinner', // The CSS class to assign to the spinner
+									  zIndex: 2e9, // The z-index (defaults to 2000000000)
+									  top: '50%', // Top position relative to parent
+									  left: '50%' // Left position relative to parent
+									};
+									var target = document.getElementById('block-spinner');
+									new Spinner(opts).spin(target);
+						}
 
 						// payment form
 						$scope.payment_userId = -1;
@@ -70,15 +99,17 @@ define([ 'angular' ], function(angular) {
 						}
 
 						$scope.reloadJunkies = function() {
+							$scope.blockInput = true;
 							Junky.fetchAll().$promise.then(function(junkies) {
 								$scope.junkies = junkies;
+								$scope.blockInput = false;
 								$scope.updateTotalValues();
 							
 								
 								if($scope.buttonIdForGoodThirst != undefined) {
 									setTimeout(function() {
 										$scope.wishGoodThirst($scope.buttonIdForGoodThirst);
-										$scope.buttonForGoodThirst = undefined;
+										$scope.buttonIdForGoodThirst = undefined;
 									},100);
 
 								}
@@ -107,6 +138,7 @@ define([ 'angular' ], function(angular) {
 
 						$scope.countMate = function(junkyId) {
 							$scope.buttonIdForGoodThirst = "#btn_"+junkyId;
+							$scope.blockInput = true;
 							var junky = Junky.get({}, {
 								'id' : junkyId
 							}, function() {

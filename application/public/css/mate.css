@@ -3,8 +3,9 @@ body {
 	/*  background: #dddddd;*/
 }
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak,
+	.x-ng-cloak {
+	display: none !important;
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -39,7 +40,7 @@ table .count_button {
 	width: 110px;
 }
 
-td.count_button {	
+td.count_button {
 	height: 60px;
 }
 
@@ -163,4 +164,19 @@ input.money, input.price {
 .success:active {
 	position: relative;
 	top: 1px;
+}
+
+.notification {
+	position: fixed;
+	width: 33%;
+	left: 33%;
+	padding: 10px;
+	font-weight: bold;
+	text-align: center;
+	transition: 0.5s linear all;
+    opacity: 1;
+}
+
+.notification.ng-hide {
+	opacity: 0;
 }

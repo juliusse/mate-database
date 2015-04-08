@@ -19,6 +19,9 @@ function(angular, ngResource, img1, img2, img3) {
 
 				});
 
+				Junky.prototype.btnText = "Durst!";
+				Junky.prototype.btnClass = "btn-warning";
+				
 				Junky.prototype.setImages = function() {
 					var list = [];
 

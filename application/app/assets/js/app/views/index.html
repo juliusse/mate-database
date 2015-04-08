@@ -1,82 +1,84 @@
 <div ng-init="init()">
-	<div ng-show="blockInput" style="left:0px; top:0px;width: 100%; height: 100%; position: fixed; background-color: rgba(125,125,125,0.5);" >
-		<div id="block-spinner"></div>
-	</div>
+    <div ng-show="blockInput" style="left:0px; top:0px;width: 100%; height: 100%; position: fixed; background-color: rgba(125,125,125,0.5);">
+        <div id="block-spinner"></div>
+    </div>
 
-	<div class="container-fluid">
-		Verfügbare Mate: <strong><span id="bottlesAvailable">{{mateAvailable}}</span></strong> Flaschen
-	</div>
-	<div class="row">
-		<table ng-cloak class="table table-striped">
-			<thead>
-				<tr>
-					<th class="user_name">Wer?</th>
-					<th class="count_button">Durst!</th>
-					<th class="pictures">Schon so viel?</th>
-					<th class="counter">gez&auml;hlt</th>
-					<th class="remain">&uuml;brig</th>
-				</tr>
-			</thead>
-			<tbody id="junky-container">
-				<tr ng-repeat="junky in junkies | orderBy:'count':true">
-					<td class="user_name">{{junky.name}}</td>
-					<td class="count_button"><button ng-src="{{junky}}" ng-click="countMate(junky.id)" class="btn btn-lg btn-warning btn-block countButton" id="btn_{{junky.id}}"><strong>Durst!</strong></button></td>
-					<td class="pictures" id="pictures-junky{{junky.id}}">{{junky.setImages()}}</td>
-					<td class="counter">{{junky.count}}</td>
-					<td class="remain {{junky.getCreditColor()}}">{{ (junky.credit / 100).toFixed(2)}} €</td>
-				</tr>
-			</tbody>
-			<tfoot>
-			<tr>
-				<th class="user_name">Team</th>
-				<th></th>
-				<th></th>
-				<th class="counter">{{totalMate}}</th>
-				<th>{{totalMoney}} €</th>
-			</tr>
-			</tfoot>
-		</table>
-	</div>
-	
-	
-	<div class="row">
-		<form ng-submit="payment_submit()" class="form-inline">
-			<h3>Einzahlen</h3>
-			
-			<div class="form-group">
-				<label class="control-label" for="addMoney-user">Nutzer:</label>
-				<select class="form-control input-lg" ng-model="payment_userId" name="payment_userId">
-					<option ng-repeat="junky in junkies | orderBy:'count':true" value="{{junky.id}}">{{junky.name}}</option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="addMoney-amount">Betrag:</label>
-				<input type="text" class="form-control input-lg money" ng-model="payment_amount" name="payment_amount" value="10.00"><span style="font-size: 15pt; vertical-align: middle;">€</span>
-			</div>
-			<button type="submit" class="btn btn-lg btn-success" id="addMoney-add">Einzahlen</button>
-		</form>
-	</div>
-	
-	<div class="row">
-		<form ng-submit="addMate_submit()" class="form-inline">
-			<h3>Mate hinzufügen</h3>
-			
-			<div class="form-group">
-				<label for="addMate-count">Betrag:</label>
-				<input id="addMate-count" type="text" class="form-control input-lg" ng-model="addMate_amount"  name="amount" value="160"><span style="font-size: 15pt; vertical-align: middle;"> Flaschen</span>
-			</div>
-			<button type="submit" class="btn btn-lg btn-success">Einzahlen</button>
-		</form>
-	</div>
-	
-	<div class="row">
-		<form ng-submit="newUser_submit()" class="form-inline">
-			<h3>Neuer Nutzer</h3>
-			<div class="form-group">
-				<label class="control-label sr-only" for="newUser-name" >Nutzername:</label>
-				<input id="newUser-name" ng-model="newUser_name" type="text" class="input input-lg" name="newUser_name" placeholder="Neuer Nutzer"> 
-			</div>
-			<button id="newUser-button" class="btn btn-lg btn-success">Erstellen</button>
-		</form>
-	</div>
+    <div ng-show="notificationVisible" class="notification ng-hide-animate {{notificationClass}}"> {{notificationText}}</div>
+
+    <div class="container-fluid">
+        Verfügbare Mate: <strong><span id="bottlesAvailable">{{mateAvailable}}</span></strong> Flaschen
+    </div>
+    <div class="row">
+        <table ng-cloak class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="user_name">Wer?</th>
+                    <th class="count_button">Durst!</th>
+                    <th class="pictures">Schon so viel?</th>
+                    <th class="counter">gez&auml;hlt</th>
+                    <th class="remain">&uuml;brig</th>
+                </tr>
+            </thead>
+            <tbody id="junky-container">
+                <tr ng-repeat="junky in junkies | orderBy:'count':true">
+                    <td class="user_name">{{junky.name}}</td>
+                    <td class="count_button"><button ng-click="countMate(junky.id)" class="btn btn-lg {{junky.btnClass}} btn-block countButton"><strong>{{junky.btnText}}</strong></button></td>
+                    <td class="pictures" id="pictures-junky{{junky.id}}">{{junky.setImages()}}</td>
+                    <td class="counter">{{junky.count}}</td>
+                    <td class="remain {{junky.getCreditColor()}}">{{ (junky.credit / 100).toFixed(2)}} €</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="user_name">Team</th>
+                    <th></th>
+                    <th></th>
+                    <th class="counter">{{totalMate}}</th>
+                    <th>{{totalMoney}} €</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+
+    <div class="row">
+        <form ng-submit="payment_submit()" class="form-inline">
+            <h3>Einzahlen</h3>
+
+            <div class="form-group">
+                <label class="control-label" for="addMoney-user">Nutzer:</label>
+                <select class="form-control input-lg" ng-model="payment_userId" name="payment_userId">
+                    <option ng-repeat="junky in junkies | orderBy:'count':true" value="{{junky.id}}">{{junky.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="addMoney-amount">Betrag:</label>
+                <input type="text" class="form-control input-lg money" ng-model="payment_amount" name="payment_amount" value="10.00"><span style="font-size: 15pt; vertical-align: middle;">€</span>
+            </div>
+            <button type="submit" class="btn btn-lg btn-success" id="addMoney-add">Einzahlen</button>
+        </form>
+    </div>
+
+    <div class="row">
+        <form ng-submit="addMate_submit()" class="form-inline">
+            <h3>Mate hinzufügen</h3>
+
+            <div class="form-group">
+                <label for="addMate-count">Betrag:</label>
+                <input id="addMate-count" type="text" class="form-control input-lg" ng-model="addMate_amount" name="amount" value="160"><span style="font-size: 15pt; vertical-align: middle;"> Flaschen</span>
+            </div>
+            <button type="submit" class="btn btn-lg btn-success">Einzahlen</button>
+        </form>
+    </div>
+
+    <div class="row">
+        <form ng-submit="newUser_submit()" class="form-inline">
+            <h3>Neuer Nutzer</h3>
+            <div class="form-group">
+                <label class="control-label sr-only" for="newUser-name">Nutzername:</label>
+                <input id="newUser-name" ng-model="newUser_name" type="text" class="input input-lg" name="newUser_name" placeholder="Neuer Nutzer">
+            </div>
+            <button id="newUser-button" class="btn btn-lg btn-success">Erstellen</button>
+        </form>
+    </div>
 </div>

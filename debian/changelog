@@ -1,6 +1,6 @@
-mate-db (3.1.0) stable; urgency=medium
+mate-db (3.2.0) stable; urgency=medium
 
-  * angular
+  * validations
 
  -- Julius Seltenheim <contact@julius-seltenheim.com>  Sun, 01 Mar 2015 20:38:39 +0200
  

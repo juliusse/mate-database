@@ -1,174 +1,226 @@
 'use strict';
 
-define([ 'angular', 'spin' ], function(angular,Spinner) {
-	var controller = {
-		attach : function(module) {
-			module.controller('MainViewController', [
+define(['angular', 'spin'], function (angular, Spinner) {
+    var controller = {
+        attach: function (module) {
+            module.controller('MainViewController', [
 					'$scope',
 					'$http',
+                    '$timeout',
 					'Junky',
-					function($scope, $http, Junky) {
-						$scope.junkies = [];
-						$scope.mateAvailable = 0;
-						$scope.totalMate = 0;
-						$scope.totalMoney = 0;
-						$scope.blockInput = true;
-						
-						$scope.buttonIdForGoodThirst = undefined;
-						
-						$scope.init = function() {
-							$scope.createSpinner();
-							$scope.reloadJunkies();
-						}
-						
-						$scope.createSpinner = function() {
-							var opts = {
-									  lines: 15, // The number of lines to draw
-									  length: 24, // The length of each line
-									  width: 10, // The line thickness
-									  radius: 45, // The radius of the inner circle
-									  corners: 1, // Corner roundness (0..1)
-									  rotate: 0, // The rotation offset
-									  direction: 1, // 1: clockwise, -1: counterclockwise
-									  color: '#000', // #rgb or #rrggbb or array of colors
-									  speed: 1, // Rounds per second
-									  trail: 60, // Afterglow percentage
-									  shadow: false, // Whether to render a shadow
-									  hwaccel: false, // Whether to use hardware acceleration
-									  className: 'spinner', // The CSS class to assign to the spinner
-									  zIndex: 2e9, // The z-index (defaults to 2000000000)
-									  top: '50%', // Top position relative to parent
-									  left: '50%' // Left position relative to parent
-									};
-									var target = document.getElementById('block-spinner');
-									new Spinner(opts).spin(target);
-						}
+					function ($scope, $http, $timeout, Junky) {
+					    $scope.junkies = [];
+					    $scope.mateAvailable = 0;
+					    $scope.totalMate = 0;
+					    $scope.totalMoney = 0;
 
-						// payment form
-						$scope.payment_userId = -1;
-						$scope.payment_amount = "10.00";
+					    $scope.blockInput = true;
 
-						$scope.payment_submit = function() {
-							var junky = Junky.get({}, {
-								id : $scope.payment_userId
-							}, function() {
-								var curAmount = junky.credit;
-								var payment = $scope.payment_amount.replace(
+					    $scope.notificationVisible = false;
+					    $scope.notificationClass = "bg-success";
+					    $scope.notificationText = "Test"
+
+					    $scope.init = function () {
+					        $scope.createSpinner();
+					        $scope.reloadJunkies();
+					    }
+
+					    $scope.createSpinner = function () {
+					        var opts = {
+					            lines: 15, // The number of lines to draw
+					            length: 24, // The length of each line
+					            width: 10, // The line thickness
+					            radius: 45, // The radius of the inner circle
+					            corners: 1, // Corner roundness (0..1)
+					            rotate: 0, // The rotation offset
+					            direction: 1, // 1: clockwise, -1: counterclockwise
+					            color: '#000', // #rgb or #rrggbb or array of colors
+					            speed: 1, // Rounds per second
+					            trail: 60, // Afterglow percentage
+					            shadow: false, // Whether to render a shadow
+					            hwaccel: false, // Whether to use hardware acceleration
+					            className: 'spinner', // The CSS class to assign to the spinner
+					            zIndex: 2e9, // The z-index (defaults to 2000000000)
+					            top: '50%', // Top position relative to parent
+					            left: '50%' // Left position relative to parent
+					        };
+					        var target = document.getElementById('block-spinner');
+					        new Spinner(opts).spin(target);
+					    }
+
+					    // payment form
+					    $scope.payment_userId = -1;
+					    $scope.payment_amount = "10.00";
+
+					    $scope.payment_submit = function () {
+					        $scope.blockInput = true;
+
+					        $scope.getJunky($scope.payment_userId, function (junky) {
+					            var curAmount = junky.credit;
+					            var payment = $scope.payment_amount.replace(
 										",", ".");
 
-								if (!isNaN(payment)) {
-									var amount = payment * 100;
+					            if (!isNaN(payment)) {
+					                var amount = payment * 100;
 
-									junky.credit = curAmount + amount;
-									junky.$save({}, function() {
-										$scope.payment_userId = -1;
-										$scope.payment_amount = "10.00";
-										$scope.reloadJunkies();
+					                junky.credit = curAmount + amount;
+					                $scope.saveJunky(junky, function () {
+					                    $scope.showNotification(true, "Es wurden erfolgreich " + $scope.payment_amount + " Euro für " + junky.name + " eingezahlt!");
+					                    $scope.payment_userId = -1;
+					                    $scope.payment_amount = "10.00";
+					                    $scope.reloadJunkies();
+					                });
+					            } else {
+					                $scope.blockInput = false;
+					                $scope.showNotification(false, "Der angegebene Betrag ist keine gültige Zahl!");
+					            }
+					            ;
+					        })
+					    }
+
+					    // new user form
+					    $scope.newUser_name = "";
+
+					    $scope.newUser_submit = function () {
+					        $scope.blockInput = true;
+
+					        var junky = new Junky({
+					            name: $scope.newUser_name
+					        });
+
+					        $scope.saveJunky(junky, function () {
+					            $scope.newUser_name = "";
+					            $scope.blockInput = false;
+					            $scope.reloadJunkies();
+					            $scope.showNotification(true, "Herzlich willkommen " + junky.name + "!");
+					        })
+					    }
+
+					    // add mate form
+					    $scope.addMate_amount = "";
+
+					    $scope.addMate_submit = function () {
+					        if (!isNaN($scope.addMate_amount)) {
+					            $http.post("/rest/mate/add", { count: $scope.addMate_amount }).success(function () {
+					                $scope.showNotification(true, "Es wurden " + $scope.addMate_amount + " Mate dem Bestand hinzugefügt!");
+					                $scope.addMate_amount = "";
+					                $scope.reloadAvailableMateCount();
+
+					            });
+					        }
+
+					    }
+
+					    $scope.reloadJunkies = function (callback) {
+					        $scope.blockInput = true;
+					        Junky.fetchAll().$promise.then(
+									function (junkies) { //success
+									    $scope.junkies = junkies;
+									    $scope.blockInput = false;
+									    $scope.updateTotalValues();
+
+									    $scope.reloadAvailableMateCount();
+
+									    if (callback) {
+									        callback(true);
+									    }
+									}, function () { //failuret
+									    $scope.blockInput = false;
+									    $scope.junkies = {};
+
+									    if (callback) {
+									        callback(false);
+									    } else {
+									        $scope.showNotification(false, "Junkies konnten nicht geladen werden...");
+									    }
 									});
-								}
-								;
-							})
-						}
+					    };
 
-						// new user form
-						$scope.newUser_name = "";
+					    $scope.reloadAvailableMateCount = function () {
+					        $http.get("/rest/meta").success(function (data) {
+					            $scope.mateAvailable = data.bottlesAvailable;
+					        });
+					    };
 
-						$scope.newUser_submit = function() {
-							var junky = new Junky({
-								name : $scope.newUser_name
-							});
+					    $scope.updateTotalValues = function () {
+					        var mate = 0;
+					        var money = 0;
+					        $scope.junkies.forEach(function (item) {
+					            mate += item.count;
+					            money += item.credit;
+					        });
 
-							$scope.newUser_name = "";
+					        $scope.totalMate = mate;
+					        $scope.totalMoney = (money / 100.0).toFixed(2);
+					    };
 
-							junky.$save({}, function() {
-								$scope.reloadJunkies();
-							});
-						}
-						
-						// add mate form
-						$scope.addMate_amount = "";
+					    $scope.countMate = function (junkyId) {
+					        $scope.blockInput = true;
+					        var failureMessageBeforeSave = "Die Mate konnte nicht gewertet werden!";
 
-						$scope.addMate_submit = function() {
-							if(!isNaN($scope.addMate_amount)) {
-								$http.post("/rest/mate/add", {count: $scope.addMate_amount}).success(function() {
-									$scope.addMate_amount = "";
-									$scope.reloadAvailableMateCount();
-								});
-							}
 
-						}
+					        var saveSuccessCallback = function () {
+					            $scope.reloadJunkies(function (success) {
+					                $scope.blockInput = false;
+					                if (success) {
+					                    $scope.showNotification(true, "Guten Durst!", 2000);
+					                } else {
+					                    $scope.showNotification(false, "Die Mate wurde abgezogen! Trotzdem ist ein unbekannter Fehler aufgetreten.", 3000);
+					                }
+					            });
+					        }
 
-						$scope.reloadJunkies = function() {
-							$scope.blockInput = true;
-							Junky.fetchAll().$promise.then(function(junkies) {
-								$scope.junkies = junkies;
-								$scope.blockInput = false;
-								$scope.updateTotalValues();
-							
-								
-								if($scope.buttonIdForGoodThirst != undefined) {
-									setTimeout(function() {
-										$scope.wishGoodThirst($scope.buttonIdForGoodThirst);
-										$scope.buttonIdForGoodThirst = undefined;
-									},100);
+					        var getSuccessCallback = function (junky) {
+					            junky.count++;
+					            junky.credit -= 75;
+					            $scope.saveJunky(junky, saveSuccessCallback, true, failureMessageBeforeSave)
+					        };
 
-								}
-								
-								$scope.reloadAvailableMateCount();
-							});
-						};
-						
-						$scope.reloadAvailableMateCount = function() {
-							$http.get("/rest/meta").success(function(data) {
-								$scope.mateAvailable = data.bottlesAvailable;
-							});
-						};
+					        $scope.getJunky(junkyId, getSuccessCallback, true, failureMessageBeforeSave);
 
-						$scope.updateTotalValues = function() {
-							var mate = 0;
-							var money = 0;
-							$scope.junkies.forEach(function(item) {
-								mate += item.count;
-								money += item.credit;
-							});
-							
-							$scope.totalMate = mate;
-							$scope.totalMoney = (money /100.0).toFixed(2);
-						};
+					    };
 
-						$scope.countMate = function(junkyId) {
-							$scope.buttonIdForGoodThirst = "#btn_"+junkyId;
-							$scope.blockInput = true;
-							var junky = Junky.get({}, {
-								'id' : junkyId
-							}, function() {
+					    $scope.showNotification = function (isSuccess, text, duration) {
+					        duration = typeof duration !== 'undefined' ? duration : 2000;
 
-								junky.count++;
-								junky.credit -= 75;
-								junky.$save({}, function() {
-									$scope.reloadJunkies();
-								});
-							});
+					        $scope.notificationClass = isSuccess ? "bg-success" : "bg-danger";
+					        $scope.notificationText = text;
+					        $scope.notificationVisible = true;
 
-						};
-						
-						$scope.wishGoodThirst = function(btn) {
-							var mateButton = btn;
-							var origText = $(mateButton).html();
+					        $timeout(function () {
+					            $scope.notificationVisible = false;
+					        }, duration);
+					    };
 
-							angular.element(mateButton).html(":-)");
-							angular.element(mateButton).addClass("btn-success");
-							angular.element(mateButton).removeClass("btn-warning");
+					    $scope.getJunky = function (id, success, unblockUiOnError, notificationOnError) {
+					        unblockUiOnError = typeof unblockUiOnError !== 'undefined' ? unblockUiOnError : true;
+					        notificationOnError = typeof notificationOnError !== 'undefined' ? notificationOnError : "Es ist ein unbekannter Fehler aufgetreten. Besteht eine Verbindung zum Server?";
 
-							setTimeout(function() {
-								angular.element(mateButton).html(origText);
-								angular.element(mateButton).removeClass("btn-success");
-								angular.element(mateButton).addClass("btn-warning");
-							}, 3000);
-						}
-					} ]);
-		}
-	}
+					        var errorCallback = function () {
+					            $scope.blockInput = !unblockUiOnError;
+					            $scope.showNotification(false, notificationOnError, 3000);
+					        };
 
-	return controller;
+					        return Junky.get({}, {
+					            'id': id
+					        }, success, errorCallback);
+					    };
+
+					    $scope.saveJunky = function (junky, success, unblockUiOnError, notificationOnError) {
+					        unblockUiOnError = typeof unblockUiOnError !== 'undefined' ? unblockUiOnError : true;
+					        notificationOnError = typeof notificationOnError !== 'undefined' ? notificationOnError : "Es ist ein unbekannter Fehler aufgetreten. Besteht eine Verbindung zum Server?";
+
+					        var errorCallback = function () {
+					            $scope.blockInput = !unblockUiOnError;
+					            $scope.showNotification(false, notificationOnError, 3000);
+					        };
+
+					        junky.$save({}, success, errorCallback);
+					    };
+
+					}]);
+        }
+    }
+
+    return controller;
 });

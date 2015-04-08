@@ -108,6 +108,12 @@ input.money, input.price {
 	margin-left: 38%;
 }
 
+#undo-alert {
+	position: fixed;
+	top: 100px;
+	margin-left: 38%;
+}
+
 .mate {
 	-moz-box-shadow: inset 0px 1px 0px 0px #fce2c1;
 	-webkit-box-shadow: inset 0px 1px 0px 0px #fce2c1;

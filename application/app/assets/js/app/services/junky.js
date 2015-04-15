@@ -22,29 +22,20 @@ function (angular, ngResource, img1, img2, img3) {
                 Junky.prototype.btnText = "Durst!";
                 Junky.prototype.btnClass = "btn-warning";
 
-                Junky.prototype.setImages = function () {
-                    var list = [];
-
+				Junky.prototype.getLevelCount = function(level) {
                     var bottles = this.count;
-                    var level3Images = Math.floor(bottles / 160);
-                    var level2Images = Math.floor((bottles % 160) / 20);
-                    var level1Images = bottles % 20;
-
-                    for (var i = 0; i < level3Images; i++) {
-                        list.push(img3.cloneNode());
-                        list.push(" ");
-                    }
-                    for (var i = 0; i < level2Images; i++) {
-                        list.push(img2.cloneNode());
-                        list.push(" ");
-                    }
-                    for (var i = 0; i < level1Images; i++) {
-                        list.push(img1.cloneNode());
-                        list.push(" ");
-                    }
-                    angular.element("#pictures-junky" + this.id).empty();
-                    angular.element("#pictures-junky" + this.id).append(list);
-                }
+					switch(level) {
+						case 1:
+							return bottles % 20;
+							break;
+						case 2:
+							return Math.floor((bottles % 160) / 20);
+							break;
+						case 3:
+							return Math.floor(bottles / 160);
+							break;
+					}
+				}
 
                 Junky.prototype.getCreditColor = function () {
                     return this.credit > 0 ? "green" : "red";

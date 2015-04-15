@@ -23,7 +23,11 @@
                 <tr ng-repeat="junky in junkies | orderBy:'count':true">
                     <td class="user_name">{{junky.name}}</td>
                     <td class="count_button"><button ng-click="countMate(junky.id)" class="btn btn-lg {{junky.btnClass}} btn-block countButton"><strong>{{junky.btnText}}</strong></button></td>
-                    <td class="pictures" id="pictures-junky{{junky.id}}">{{junky.setImages()}}</td>
+                    <td class="pictures" id="pictures-junky{{junky.id}}">
+						<img ng-repeat="i in getNumber(junky.getLevelCount(3)) track by $index" src="/assets/dynamic/image3">
+						<img ng-repeat="i in getNumber(junky.getLevelCount(2)) track by $index" src="/assets/dynamic/image2">
+						<img ng-repeat="i in getNumber(junky.getLevelCount(1)) track by $index" src="/assets/dynamic/image1">
+					</td>
                     <td class="counter">{{junky.count}}</td>
                     <td class="remain {{junky.getCreditColor()}}">{{ (junky.credit / 100).toFixed(2)}} €</td>
                 </tr>

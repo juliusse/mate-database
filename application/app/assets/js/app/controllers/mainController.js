@@ -25,6 +25,11 @@ define(['angular', 'spin'], function (angular, Spinner) {
 					        $scope.reloadJunkies();
 					    }
 
+						// Converts 'n' to array with 'n' items.
+						$scope.getNumber = function(num) {
+						    return new Array(num);   
+						}
+
 					    $scope.createSpinner = function () {
 					        var opts = {
 					            lines: 15, // The number of lines to draw

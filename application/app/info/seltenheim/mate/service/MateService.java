@@ -29,4 +29,6 @@ public interface MateService {
     public void setCurrentBottlePrice(double newPricePerBottle) throws IOException;
 
     public void drinkMate(MateJunky junky) throws IOException;
+
+    public void deleteJunkie(int id) throws IOException;
 }

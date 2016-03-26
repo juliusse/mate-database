@@ -7,8 +7,9 @@ require.config({
 		ngResource : '../lib/angularjs/angular-resource.min',
 		ngRoute : '../lib/angularjs/angular-route.min',
 		spin : '../lib/spin-js/spin',
-		bootstrap : 'lib/bootstrap/js/bootstrap',
+		bootstrap : '../lib/bootstrap/js/bootstrap',
 		image : 'ext/image',
+		bootbox: '../lib/bootbox/bootbox.min'
 	},
 	shim : {
 		'jquery' : {
@@ -19,9 +20,13 @@ require.config({
 			exports : 'angular'
 		},
 		'ngResource' : [ 'angular' ],
-		'ngRoute' : [ 'angular' ]
+		'ngRoute' : [ 'angular' ],
+		'bootbox' : {
+			deps: ['jquery', 'bootstrap'],
+			exports : 'bootbox'
+		},
 	},
-	priority : [ "jquery", "angular" ]
+	priority : [ "jquery", "angular", "bootbox" ]
 
 });
 

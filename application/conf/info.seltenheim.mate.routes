@@ -14,6 +14,7 @@ GET     /rest/junkies/:id           @info.seltenheim.mate.controllers.JunkyContr
 GET     /rest/junkies/:id/drink     @info.seltenheim.mate.controllers.JunkyController.getJunkyDrinkMate(id : Integer)
 POST    /rest/junkies               @info.seltenheim.mate.controllers.JunkyController.createJunky()
 POST    /rest/junkies/:id           @info.seltenheim.mate.controllers.JunkyController.updateJunky(id : Integer)
+DELETE  /rest/junkies/:id           @info.seltenheim.mate.controllers.JunkyController.deleteJunky(id : Integer)
 GET     /rest/meta                  @info.seltenheim.mate.controllers.MateController.getMeta()
 POST    /rest/mate/add              @info.seltenheim.mate.controllers.MateController.addMate()
 GET     /rest/log                   @info.seltenheim.mate.controllers.MateController.getLogEntries()

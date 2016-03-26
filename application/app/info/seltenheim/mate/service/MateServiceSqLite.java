@@ -97,14 +97,14 @@ public class MateServiceSqLite implements MateService {
     public JsonNode getMetaInformationAsJson() throws IOException {
         return getMetaInformation().getJsonNode();
     }
-    
+
     private MetaInformation getMetaInformation() throws IOException {
-    	Map<String, Object> metaRow = SqlUtils.selectEntityFromTable(connectionString, "SELECT * FROM meta WHERE id = ?", 1);
-    	
-    	final int dbVersion = Integer.parseInt(metaRow.get("version").toString());
+        Map<String, Object> metaRow = SqlUtils.selectEntityFromTable(connectionString, "SELECT * FROM meta WHERE id = ?", 1);
+
+        final int dbVersion = Integer.parseInt(metaRow.get("version").toString());
         final int bottlesAvailable = Integer.parseInt(metaRow.get("bottles_available").toString());
         final int currentBottlePrice = Integer.parseInt(metaRow.get("bottle_price").toString());
-        
+
         return new MetaInformation(dbVersion, bottlesAvailable, currentBottlePrice);
     }
 
@@ -146,21 +146,25 @@ public class MateServiceSqLite implements MateService {
         return new MateLogEntry(id, junky, type, timestamp, credit_old, credit_new, bottles_old, bottles_new);
     }
 
-	@Override
-	public void setCurrentBottlePrice(double newPricePerBottle)
-			throws IOException {
-		System.out.println(newPricePerBottle);
-		SqlUtils.prepareAndExecuteStatement(connectionString, "UPDATE meta SET bottle_price = ? WHERE id = ?", (int)Math.round(newPricePerBottle * 100), 1);
-	}
-	
-    public int getCurrentBottlePrice() throws IOException {
-    	return getMetaInformation().getCurrentBottlePrice();
-	}
+    @Override
+    public void setCurrentBottlePrice(double newPricePerBottle) throws IOException {
+        System.out.println(newPricePerBottle);
+        SqlUtils.prepareAndExecuteStatement(connectionString, "UPDATE meta SET bottle_price = ? WHERE id = ?", (int) Math.round(newPricePerBottle * 100), 1);
+    }
 
-	@Override
-	public void drinkMate(MateJunky junky) throws IOException {
-		junky.setCredit(junky.getCredit() - getCurrentBottlePrice());
-		junky.setCount(junky.getCount() + 1);
-		updateJunky(junky);
-	}
+    public int getCurrentBottlePrice() throws IOException {
+        return getMetaInformation().getCurrentBottlePrice();
+    }
+
+    @Override
+    public void drinkMate(MateJunky junky) throws IOException {
+        junky.setCredit(junky.getCredit() - getCurrentBottlePrice());
+        junky.setCount(junky.getCount() + 1);
+        updateJunky(junky);
+    }
+
+    @Override
+    public void deleteJunkie(int id) throws IOException {
+        SqlUtils.prepareAndExecuteStatement(connectionString, "DELETE FROM user WHERE id = ?", id);
+    }
 }

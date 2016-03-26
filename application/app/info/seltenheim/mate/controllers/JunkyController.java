@@ -51,4 +51,9 @@ public class JunkyController extends Controller {
         
         return ok(Json.toJson(junky));
     }
+    
+    public Result deleteJunky(int id) throws IOException {
+        mateService.deleteJunkie(id);
+        return ok();
+    }
 }

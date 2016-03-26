@@ -21,7 +21,7 @@
             </thead>
             <tbody id="junky-container">
                 <tr ng-repeat="junky in junkies | orderBy:'count':true">
-                    <td class="user_name">{{junky.name}}</td>
+                    <td class="user_name">{{junky.name}}<br><img ng-click="deleteJunky(junky.id, junky.name)" src="/assets/img/remove.png" /></td>
                     <td class="count_button"><button ng-click="countMate(junky.id)" class="btn btn-lg {{junky.btnClass}} btn-block countButton"><strong>{{junky.btnText}}</strong></button></td>
                     <td class="pictures" id="pictures-junky{{junky.id}}">
 						<img ng-repeat="i in getNumber(junky.getLevelCount(3)) track by $index" src="/assets/dynamic/image3">

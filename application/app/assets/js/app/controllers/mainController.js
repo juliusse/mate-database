@@ -1,12 +1,12 @@
 'use strict';
 
-define(['angular', 'spin'], function (angular, Spinner) {
+define(['angular', 'spin', 'bootbox'], function (angular, Spinner, bootbox) {
     var controller = {
         attach: function (module) {
             module.controller('MainViewController', [
 					'$scope',
 					'$http',
-                    '$timeout',
+					'$timeout',
 					'Junky',
 					function ($scope, $http, $timeout, Junky) {
 					    $scope.junkies = [];
@@ -221,6 +221,35 @@ define(['angular', 'spin'], function (angular, Spinner) {
 					        };
 
 					        junky.$save({}, success, errorCallback);
+					    };
+					    
+					    
+					    $scope.deleteJunky = function (id, name) {
+					    	
+					        var successCallback = function () {
+					            $scope.reloadJunkies(function (success) {
+					                $scope.blockInput = false;
+					                if (success) {
+					                    $scope.showNotification(true, "Der Junkie " + name + " wurde gelöscht.", 2000);
+					                } else {
+					                    $scope.showNotification(false, "Der Junkie " + name + " konnte nicht gelöscht werden.", 3000);
+					                }
+					            });
+					        }
+					        
+					        var errorCallback = function () {
+					            $scope.blockInput = false;
+					            $scope.showNotification(false, "Es ist ein unbekannter Fehler aufgetreten. Besteht eine Verbindung zum Server?", 3000);
+					        };
+					    
+					        bootbox.confirm("Soll der Junkie <strong>" + name + "</strong> wirklich gelöscht werden?", function(result) {
+					            if (result) {
+					                $scope.blockInput = true;
+					                return Junky.delete({}, {
+					                    'id': id
+					                    }, successCallback, errorCallback);
+					            }
+					        });
 					    };
 
 					}]);

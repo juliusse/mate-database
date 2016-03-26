@@ -70,14 +70,14 @@ define(['angular', 'spin'], function (angular, Spinner) {
 
 					                junky.credit = curAmount + amount;
 					                $scope.saveJunky(junky, function () {
-					                    $scope.showNotification(true, "Es wurden erfolgreich " + $scope.payment_amount + " Euro für " + junky.name + " eingezahlt!");
+					                    $scope.showNotification(true, "Es wurden erfolgreich " + $scope.payment_amount + " Euro fÃ¼r " + junky.name + " eingezahlt!");
 					                    $scope.payment_userId = -1;
 					                    $scope.payment_amount = "10.00";
 					                    $scope.reloadJunkies();
 					                });
 					            } else {
 					                $scope.blockInput = false;
-					                $scope.showNotification(false, "Der angegebene Betrag ist keine gültige Zahl!");
+					                $scope.showNotification(false, "Der angegebene Betrag ist keine gÃ¼ltige Zahl!");
 					            }
 					            ;
 					        })
@@ -107,7 +107,7 @@ define(['angular', 'spin'], function (angular, Spinner) {
 					    $scope.addMate_submit = function () {
 					        if (!isNaN($scope.addMate_amount)) {
 					            $http.post("/rest/mate/add", { count: $scope.addMate_amount }).success(function () {
-					                $scope.showNotification(true, "Es wurden " + $scope.addMate_amount + " Mate dem Bestand hinzugefügt!");
+					                $scope.showNotification(true, "Es wurden " + $scope.addMate_amount + " Mate dem Bestand hinzugefÃ¼gt!");
 					                $scope.addMate_amount = "";
 					                $scope.reloadAvailableMateCount();
 
@@ -158,13 +158,11 @@ define(['angular', 'spin'], function (angular, Spinner) {
 					        $scope.totalMate = mate;
 					        $scope.totalMoney = (money / 100.0).toFixed(2);
 					    };
-
+					    
 					    $scope.countMate = function (junkyId) {
 					        $scope.blockInput = true;
-					        var failureMessageBeforeSave = "Die Mate konnte nicht gewertet werden!";
-
-
-					        var saveSuccessCallback = function () {
+					        
+					        var successCallback = function () {
 					            $scope.reloadJunkies(function (success) {
 					                $scope.blockInput = false;
 					                if (success) {
@@ -174,15 +172,17 @@ define(['angular', 'spin'], function (angular, Spinner) {
 					                }
 					            });
 					        }
-
-					        var getSuccessCallback = function (junky) {
-					            junky.count++;
-					            junky.credit -= 75;
-					            $scope.saveJunky(junky, saveSuccessCallback, true, failureMessageBeforeSave)
+					        
+					        var errorCallback = function () {
+					            $scope.blockInput = false;
+					            $scope.showNotification(false, "Es ist ein unbekannter Fehler aufgetreten. Besteht eine Verbindung zum Server?", 3000);
 					        };
-
-					        $scope.getJunky(junkyId, getSuccessCallback, true, failureMessageBeforeSave);
-
+					        
+					        Junky.drink({},
+					        	{'id': junkyId},
+					        	successCallback,
+					        	errorCallback
+					        );
 					    };
 
 					    $scope.showNotification = function (isSuccess, text, duration) {
@@ -196,7 +196,7 @@ define(['angular', 'spin'], function (angular, Spinner) {
 					            $scope.notificationVisible = false;
 					        }, duration);
 					    };
-
+					    
 					    $scope.getJunky = function (id, success, unblockUiOnError, notificationOnError) {
 					        unblockUiOnError = typeof unblockUiOnError !== 'undefined' ? unblockUiOnError : true;
 					        notificationOnError = typeof notificationOnError !== 'undefined' ? notificationOnError : "Es ist ein unbekannter Fehler aufgetreten. Besteht eine Verbindung zum Server?";

@@ -9,13 +9,15 @@ GET		/				@info.seltenheim.mate.controllers.MateController.index()
 POST	/settings		@info.seltenheim.mate.controllers.MateController.processSettings()
 
 # RESTful API
-GET		/rest/junkies		@info.seltenheim.mate.controllers.JunkyController.getAllJunkies()
-GET		/rest/junkies/:id	@info.seltenheim.mate.controllers.JunkyController.getJunky(id : Integer)
-POST	/rest/junkies		@info.seltenheim.mate.controllers.JunkyController.createJunky()
-POST	/rest/junkies/:id	@info.seltenheim.mate.controllers.JunkyController.updateJunky(id : Integer)
-GET		/rest/meta			@info.seltenheim.mate.controllers.MateController.getMeta()
-POST	/rest/mate/add	@info.seltenheim.mate.controllers.MateController.addMate()
-GET		/rest/log			@info.seltenheim.mate.controllers.MateController.getLogEntries()
+GET     /rest/junkies               @info.seltenheim.mate.controllers.JunkyController.getAllJunkies()
+GET     /rest/junkies/:id           @info.seltenheim.mate.controllers.JunkyController.getJunky(id : Integer)
+GET     /rest/junkies/:id/drink     @info.seltenheim.mate.controllers.JunkyController.getJunkyDrinkMate(id : Integer)
+POST    /rest/junkies               @info.seltenheim.mate.controllers.JunkyController.createJunky()
+POST    /rest/junkies/:id           @info.seltenheim.mate.controllers.JunkyController.updateJunky(id : Integer)
+GET     /rest/meta                  @info.seltenheim.mate.controllers.MateController.getMeta()
+POST    /rest/mate/add              @info.seltenheim.mate.controllers.MateController.addMate()
+GET     /rest/log                   @info.seltenheim.mate.controllers.MateController.getLogEntries()
+POST    /rest/setCurrentBottlePrice @info.seltenheim.mate.controllers.MateController.setCurrentBottlePrice()
 
 # assets
 GET     /assets/dynamic/:filename	@info.seltenheim.mate.controllers.MateController.getImage(filename: String)

@@ -11,12 +11,11 @@ import java.util.Map;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import play.Configuration;
 import play.Logger;
 import play.Play;
-import play.libs.Json;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Component
 @Profile("mateSqLite")
@@ -95,19 +94,18 @@ public class MateServiceSqLite implements MateService {
     }
 
     @Override
-    public double getCurrentBottlePrice() throws IOException {
-        // TODO get price from config file
-        Logger.warn("Bottle price not implement: See https://github.com/juliusse/mate-database/issues/5");
-        return 0.75;
-    }
-
-    @Override
     public JsonNode getMetaInformationAsJson() throws IOException {
-        Map<String, Object> metaRow = SqlUtils.selectEntityFromTable(connectionString, "SELECT * FROM meta WHERE id = ?", 1);
-        final String dbVersion = metaRow.get("version").toString();
-        final String bottlesAvailable = metaRow.get("bottles_available").toString();
-
-        return Json.parse("{\"dbVersion\":" + dbVersion + ", \"bottlesAvailable\":" + bottlesAvailable + "}");
+        return getMetaInformation().getJsonNode();
+    }
+    
+    private MetaInformation getMetaInformation() throws IOException {
+    	Map<String, Object> metaRow = SqlUtils.selectEntityFromTable(connectionString, "SELECT * FROM meta WHERE id = ?", 1);
+    	
+    	final int dbVersion = Integer.parseInt(metaRow.get("version").toString());
+        final int bottlesAvailable = Integer.parseInt(metaRow.get("bottles_available").toString());
+        final int currentBottlePrice = Integer.parseInt(metaRow.get("bottle_price").toString());
+        
+        return new MetaInformation(dbVersion, bottlesAvailable, currentBottlePrice);
     }
 
     @Override
@@ -147,4 +145,22 @@ public class MateServiceSqLite implements MateService {
 
         return new MateLogEntry(id, junky, type, timestamp, credit_old, credit_new, bottles_old, bottles_new);
     }
+
+	@Override
+	public void setCurrentBottlePrice(double newPricePerBottle)
+			throws IOException {
+		System.out.println(newPricePerBottle);
+		SqlUtils.prepareAndExecuteStatement(connectionString, "UPDATE meta SET bottle_price = ? WHERE id = ?", (int)Math.round(newPricePerBottle * 100), 1);
+	}
+	
+    public int getCurrentBottlePrice() throws IOException {
+    	return getMetaInformation().getCurrentBottlePrice();
+	}
+
+	@Override
+	public void drinkMate(MateJunky junky) throws IOException {
+		junky.setCredit(junky.getCredit() - getCurrentBottlePrice());
+		junky.setCount(junky.getCount() + 1);
+		updateJunky(junky);
+	}
 }

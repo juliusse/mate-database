@@ -22,6 +22,8 @@ public class DatabaseMigrator {
             migrate1to2(connectionString);
         case 2:
             migrate2to3(connectionString);
+        case 3:
+            migrate3to4(connectionString);
         }
 
     }
@@ -62,6 +64,14 @@ public class DatabaseMigrator {
                             + "BEGIN "
                             + "INSERT INTO junky_log (user_id, type, credit_old, credit_new, bottles_old, bottles_new) VALUES (OLD.id, \"drinking\", OLD.credit, NEW.credit, OLD.total_bottles, NEW.total_bottles); "
                             + "UPDATE meta SET bottles_available = bottles_available - 1; " + "END");
+        } catch (IOException e) {
+        }
+    }
+    
+    private static void migrate3to4(String connectionString) {
+        try {
+            SqlUtils.prepareAndExecuteStatement(connectionString, "ALTER TABLE meta ADD COLUMN bottle_price INTEGER");
+            SqlUtils.prepareAndExecuteStatement(connectionString, "UPDATE meta SET version = 4, bottle_price = 75");
         } catch (IOException e) {
         }
     }

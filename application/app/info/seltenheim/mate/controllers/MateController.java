@@ -99,4 +99,16 @@ public class MateController extends Controller {
         response().setHeader("Etag", hash);
         return ok(image);
     }
+
+    public Result setCurrentBottlePrice() throws IOException {
+        final double newPricePerBottle;
+        try {
+            newPricePerBottle = request().body().asJson().findValue("newBottlePrice").asDouble();
+        } catch (Exception e) {
+            return status(BAD_REQUEST);
+        }
+
+        mateService.setCurrentBottlePrice(newPricePerBottle);
+        return ok();
+    }
 }

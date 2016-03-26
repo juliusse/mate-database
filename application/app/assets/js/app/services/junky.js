@@ -16,7 +16,10 @@ function (angular, ngResource, img1, img2, img3) {
                         method: 'GET',
                         isArray: true
                     },
-
+                    drink: {
+                    	method: 'GET',
+                    	url: 'rest/junkies/:junkyId/drink'
+                    }
                 });
 
                 Junky.prototype.btnText = "Durst!";

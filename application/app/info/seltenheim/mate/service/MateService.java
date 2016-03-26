@@ -19,17 +19,14 @@ public interface MateService {
     public MateJunky addJunky(String name) throws IOException;
 
     public boolean updateJunky(MateJunky junky) throws IOException;
-    
+
     public JsonNode getMetaInformationAsJson() throws IOException;
-    
+
     public void addMate(int count) throws IOException;
 
     public List<MateLogEntry> getAllLogEntries() throws IOException;
 
-    /**
-     * 
-     * @return price in euro
-     * @throws IOException
-     */
-    public double getCurrentBottlePrice() throws IOException;
+    public void setCurrentBottlePrice(double newPricePerBottle) throws IOException;
+
+    public void drinkMate(MateJunky junky) throws IOException;
 }

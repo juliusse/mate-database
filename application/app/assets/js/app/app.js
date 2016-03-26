@@ -17,7 +17,7 @@ function (angular, ngRoute, controllers, services) {
             controller: 'MainViewController'
         }).when('/settings', {
             templateUrl: 'assets/js/app/views/settings.html',
-            controller: 'SetttingsViewController'
+            controller: 'SettingsViewController'
         }).when('/log', {
             templateUrl: 'assets/js/app/views/log.html',
             controller: 'LogViewController'

@@ -1,3 +1,9 @@
+mate-db (3.3.0) stable; urgency=medium
+
+  * Non-maintainer upload.
+
+ -- Stefan Wächtler <StefanWaechtler@web.de>  Sun, 27 Mar 2016 12:15:38 +0200
+
 mate-db (3.2.0) stable; urgency=medium
 
   * validations

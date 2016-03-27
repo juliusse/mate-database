@@ -1,4 +1,10 @@
-application.version="3.0.0"
+application.version="3.3.0"
+
+## 3.3.0
+# added bootbox for confirmation box
+# configurable bottle price
+# default license free icons
+# junkies can be deleted
 
 ## 3.0.0
 # convert to angular.js

@@ -25,6 +25,8 @@ public class Global extends GlobalSettings {
         initializeSpring();
         ensureDatabaseIsPresent();
         migrateDatabase();
+        
+        ensureImagesArePresent();
 
         super.onStart(application);
     }
@@ -34,19 +36,32 @@ public class Global extends GlobalSettings {
         SpringConfiguration.initializeContext(context);
     }
     
-    private void ensureDatabaseIsPresent() {
+    private void ensureDatabaseIsPresent() {        
         final Configuration config = Play.application().configuration();
-        final File databaseFile = new File(config.getString("info.seltenheim.mate.sqlite.location"));
         
-        if (!databaseFile.isFile()) {
-            Logger.warn("Database does not exist. Copy default database.");
-            final InputStream defaultDatabaseAsStream = Play.application().resourceAsStream("mate.sqlite");
+        ensureFileIsPresent(config.getString("info.seltenheim.mate.sqlite.location"), "mate.sqlite");
+    }
+    
+    private void ensureImagesArePresent() {
+        final Configuration config = Play.application().configuration();
+        final String filesDirectory = config.getString("info.seltenheim.mate.files");
+        
+        ensureFileIsPresent(filesDirectory + "/image1", "img/bottle.png");
+        ensureFileIsPresent(filesDirectory + "/image2", "img/box.png");
+        ensureFileIsPresent(filesDirectory + "/image3", "img/truck.png");
+    }
+    
+    private void ensureFileIsPresent(String path, String resource) {
+        final File srcFile = new File(path);
+        
+        if (!srcFile.isFile()) {
+            final InputStream fileAsStream = Play.application().resourceAsStream(resource);
             
-            databaseFile.getParentFile().mkdirs();
+            srcFile.getParentFile().mkdirs();
             try {
-                FileUtils.copyInputStreamToFile(defaultDatabaseAsStream, databaseFile);
+                FileUtils.copyInputStreamToFile(fileAsStream, srcFile);
             } catch (IOException e) {
-                Logger.error("Cannot create new database.", e);
+                Logger.error("Cannot create file", e);
             }
         }
     }

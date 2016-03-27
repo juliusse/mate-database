@@ -2,7 +2,7 @@ package info.seltenheim.mate.service;
 
 public class MateLogEntry {
     public static enum Type {
-        drinking, payment
+        drinking, payment, disabled, created
     }
 
     private final int id;

@@ -11,4 +11,12 @@
     <div ng-if="logEntry.type == 'payment'">
         {{logEntry.timestamp}} - <span class="blue">{{logEntry.mateJunky.name}}</span> hat <span class="blue">{{(logEntry.credit_new - logEntry.credit_old)/100.0}}€</span> eingezahlt.
     </div>
+    <div ng-if="logEntry.type == 'disabled'">
+        {{logEntry.timestamp}} - <span class="blue">{{logEntry.mateJunky.name}}</span> wurde gelöscht.
+        <span ng-if="logEntry.credit_old > 0">Sein Rest-Guthaben in Höhe von {{(logEntry.credit_old / 100.0).toFixed(2)}} wurde uns gespendet.</span>
+        <span ng-if="logEntry.credit_old < 0">Auf seinen Schulden in Höhe von {{(logEntry.credit_old / 100.0 * -1).toFixed(2)}} bleiben wir wohl sitzen.</span>
+    </div>
+        <div ng-if="logEntry.type == 'created'">
+        {{logEntry.timestamp}} - <span class="blue">{{logEntry.mateJunky.name}}</span> wurde angelegt.</span>
+    </div>
 </div>

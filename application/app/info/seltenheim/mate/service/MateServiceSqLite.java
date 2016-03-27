@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.sqlite.SQLiteConfig;
 
 import play.Configuration;
 import play.Logger;
@@ -20,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 @Component
 @Profile("mateSqLite")
 public class MateServiceSqLite implements MateService {
-    private static final String SELECT_ALL = "SELECT * FROM user";
+    private static final String SELECT_ALL = "SELECT * FROM user WHERE disabled = 0";
 
     private static final String SELECT_BY_ID = "SELECT * FROM user WHERE id = ?";
     private static final String SELECT_BY_NAME = "SELECT * FROM user WHERE name = ?";
@@ -28,23 +29,33 @@ public class MateServiceSqLite implements MateService {
     private static final String INSERT_JUNKY = "INSERT INTO user (name) VALUES (?)";
     private static final String UPDATE_JUNKY = "UPDATE user SET name = ?, total_bottles = ?, credit = ? WHERE id = ?";
 
-    private final String connectionString;
-
-    public MateServiceSqLite() {
+    private final SqlUtils sqlUtils;
+    
+    public static SqlUtils getSqlUtils() {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
             Logger.error("jdbc error", e);
         }
+
+        final SQLiteConfig sqliteConfig = new SQLiteConfig();
+        sqliteConfig.enforceForeignKeys(true);
+
         final Configuration config = Play.application().configuration();
-        connectionString = "jdbc:sqlite:" + config.getString("info.seltenheim.mate.sqlite.location");
+        final String connectionString = "jdbc:sqlite:" + config.getString("info.seltenheim.mate.sqlite.location");
+
+        return new SqlUtils(connectionString, sqliteConfig.toProperties());
+    }
+
+    public MateServiceSqLite() {
+        sqlUtils = getSqlUtils();
     }
 
     @Override
     public List<MateJunky> findAllJunkies() throws IOException {
         final List<MateJunky> junkies = new ArrayList<>();
 
-        final List<Map<String, Object>> rows = SqlUtils.selectListFromTable(connectionString, SELECT_ALL);
+        final List<Map<String, Object>> rows = sqlUtils.selectListFromTable(SELECT_ALL);
         for (Map<String, Object> row : rows) {
             junkies.add(rowToJunky(row));
         }
@@ -54,7 +65,7 @@ public class MateServiceSqLite implements MateService {
     @Override
     public MateJunky findJunkyById(int id) throws IOException {
         MateJunky junky = null;
-        final Map<String, Object> row = SqlUtils.selectEntityFromTable(connectionString, SELECT_BY_ID, id);
+        final Map<String, Object> row = sqlUtils.selectEntityFromTable(SELECT_BY_ID, id);
 
         if (row != null) {
             junky = rowToJunky(row);
@@ -66,7 +77,7 @@ public class MateServiceSqLite implements MateService {
     @Override
     public MateJunky findJunkyByName(String name) throws IOException {
         MateJunky junky = null;
-        final Map<String, Object> row = SqlUtils.selectEntityFromTable(connectionString, SELECT_BY_NAME, name);
+        final Map<String, Object> row = sqlUtils.selectEntityFromTable(SELECT_BY_NAME, name);
 
         if (row != null) {
             junky = rowToJunky(row);
@@ -77,19 +88,14 @@ public class MateServiceSqLite implements MateService {
 
     @Override
     public MateJunky addJunky(String name) throws IOException {
-        final MateJunky junkyWithName = findJunkyByName(name);
-
-        if (junkyWithName == null) {
-            SqlUtils.prepareAndExecuteStatement(connectionString, INSERT_JUNKY, name);
-            return findJunkyByName(name);
-        }
-        // TODO correct handling
-        return null;
+        ExecutionResult executionResult = sqlUtils.prepareAndExecuteStatement(INSERT_JUNKY, name);
+        
+        return findJunkyById(executionResult.getGeneratedId().intValue());
     }
 
     @Override
     public boolean updateJunky(MateJunky junky) throws IOException {
-        final ExecutionResult result = SqlUtils.prepareAndExecuteStatement(connectionString, UPDATE_JUNKY, junky.getName(), junky.getCount(), junky.getCredit(), junky.getId());
+        final ExecutionResult result = sqlUtils.prepareAndExecuteStatement(UPDATE_JUNKY, junky.getName(), junky.getCount(), junky.getCredit(), junky.getId());
         return result.getAffectedRows() == 1;
     }
 
@@ -99,7 +105,7 @@ public class MateServiceSqLite implements MateService {
     }
 
     private MetaInformation getMetaInformation() throws IOException {
-        Map<String, Object> metaRow = SqlUtils.selectEntityFromTable(connectionString, "SELECT * FROM meta WHERE id = ?", 1);
+        Map<String, Object> metaRow = sqlUtils.selectEntityFromTable("SELECT * FROM meta WHERE id = ?", 1);
 
         final int dbVersion = Integer.parseInt(metaRow.get("version").toString());
         final int bottlesAvailable = Integer.parseInt(metaRow.get("bottles_available").toString());
@@ -110,13 +116,13 @@ public class MateServiceSqLite implements MateService {
 
     @Override
     public void addMate(int count) throws IOException {
-        SqlUtils.prepareAndExecuteStatement(connectionString, "UPDATE meta SET bottles_available = bottles_available + ?", count);
+        sqlUtils.prepareAndExecuteStatement("UPDATE meta SET bottles_available = bottles_available + ?", count);
     }
 
     @Override
     public List<MateLogEntry> getAllLogEntries() throws IOException {
         final List<MateLogEntry> entries = new ArrayList<MateLogEntry>();
-        final List<Map<String, Object>> rows = SqlUtils.selectListFromTable(connectionString, SELECT_LOG_ENTRIES);
+        final List<Map<String, Object>> rows = sqlUtils.selectListFromTable(SELECT_LOG_ENTRIES);
         for (Map<String, Object> row : rows) {
             entries.add(rowToLogEntry(row));
         }
@@ -149,7 +155,7 @@ public class MateServiceSqLite implements MateService {
     @Override
     public void setCurrentBottlePrice(double newPricePerBottle) throws IOException {
         System.out.println(newPricePerBottle);
-        SqlUtils.prepareAndExecuteStatement(connectionString, "UPDATE meta SET bottle_price = ? WHERE id = ?", (int) Math.round(newPricePerBottle * 100), 1);
+        sqlUtils.prepareAndExecuteStatement("UPDATE meta SET bottle_price = ? WHERE id = ?", (int) Math.round(newPricePerBottle * 100), 1);
     }
 
     public int getCurrentBottlePrice() throws IOException {
@@ -165,6 +171,6 @@ public class MateServiceSqLite implements MateService {
 
     @Override
     public void deleteJunkie(int id) throws IOException {
-        SqlUtils.prepareAndExecuteStatement(connectionString, "DELETE FROM user WHERE id = ?", id);
+        sqlUtils.prepareAndExecuteStatement("UPDATE user SET disabled = 1, credit = 0 WHERE id = ?", id);
     }
 }
